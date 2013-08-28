@@ -1,6 +1,7 @@
-/.settings
-/.idea
-/target
-/.project
-/.classpath
+*.settings
+*.idea
+*.bak
+*/target
+*.project
+*.classpath
 
