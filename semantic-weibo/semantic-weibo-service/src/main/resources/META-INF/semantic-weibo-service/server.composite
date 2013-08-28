@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.osoa.org/xmlns/sca/1.0" xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.0"
+    xmlns:scallop="http://scallop/xmlns/sca/1.0"
+    targetNamespace="http://GemanticWeiboComponent" xmlns:sample="http://GemanticWeiboComponent" name="GemanticWeiboComponent">
+
+
+  <component name="GemanticWeiboComponent">
+    <implementation.spring location="META-INF/semantic-weibo-service/applicationContext-server.xml" />
+  </component>
+  
+	  <service name="eventService" promote="GemanticWeiboComponent/eventService">
+    <interface.java interface="com.gemantic.gemantic.weibo.service.EventService"/> 
+    <scallop:binding.rmi host="localhost" port="8801" serviceName="EventRMIService"/>     
+  </service>
+	  <service name="companyEventService" promote="GemanticWeiboComponent/companyEventService">
+    <interface.java interface="com.gemantic.gemantic.weibo.service.CompanyEventService"/> 
+    <scallop:binding.rmi host="localhost" port="8801" serviceName="CompanyEventRMIService"/>     
+  </service>
+	  <service name="companyNewsService" promote="GemanticWeiboComponent/companyNewsService">
+    <interface.java interface="com.gemantic.gemantic.weibo.service.CompanyNewsService"/> 
+    <scallop:binding.rmi host="localhost" port="8801" serviceName="CompanyNewsRMIService"/>     
+  </service>
+	  <service name="companyExtendeventService" promote="GemanticWeiboComponent/companyExtendeventService">
+    <interface.java interface="com.gemantic.gemantic.weibo.service.CompanyExtendeventService"/> 
+    <scallop:binding.rmi host="localhost" port="8801" serviceName="CompanyExtendeventRMIService"/>     
+  </service>
+	
+	
+	 
+  
+	
+
+
+</composite>
+

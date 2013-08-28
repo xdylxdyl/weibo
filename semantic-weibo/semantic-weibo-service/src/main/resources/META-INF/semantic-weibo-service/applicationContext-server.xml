@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sca="http://www.springframework.org/schema/sca"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/sca http://www.springframework.org/schema/sca/spring-sca.xsd">
+
+	<context:component-scan base-package="com.gemantic.gemantic.weibo" />
+
+	
+		<sca:service name="eventService"
+		type="com.gemantic.gemantic.weibo.service.EventService" target="eventService" />
+		
+	
+		<sca:service name="companyEventService"
+		type="com.gemantic.gemantic.weibo.service.CompanyEventService" target="companyEventService" />
+		
+	
+		<sca:service name="companyNewsService"
+		type="com.gemantic.gemantic.weibo.service.CompanyNewsService" target="companyNewsService" />
+		
+	
+		<sca:service name="companyExtendeventService"
+		type="com.gemantic.gemantic.weibo.service.CompanyExtendeventService" target="companyExtendeventService" />
+		
+	
+		
+	
+	 
+	
+	
+
+
+	
+
+
+
+	
+		
+	<bean id="eventService"
+		class="com.gemantic.gemantic.weibo.service.impl.EventServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+		
+	<bean id="companyEventService"
+		class="com.gemantic.gemantic.weibo.service.impl.CompanyEventServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+		
+	<bean id="companyNewsService"
+		class="com.gemantic.gemantic.weibo.service.impl.CompanyNewsServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+		
+	<bean id="companyExtendeventService"
+		class="com.gemantic.gemantic.weibo.service.impl.CompanyExtendeventServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+		
+
+<bean id="dao" class="com.gemantic.dal.dao.impl.CompositeDaoImpl" />
+
+
+
+
+
+
+
+	<!-- performance -->
+	<aop:aspectj-autoproxy />
+	<bean id="aroundLoggingTime" class="com.gemantic.common.stat.aop.time.AroundTimeConsume" />
+	<aop:config>
+		<aop:aspect ref="aroundLoggingTime">
+			<aop:pointcut id="publicServiceMethod"
+				expression="execution(* com.gemantic..service.*.*(..)) " />
+			<aop:around method="around" pointcut-ref="publicServiceMethod" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>
+

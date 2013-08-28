@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<datasources>
+		<ds name="gemanticWeibo"
+			driverClassName="com.mysql.jdbc.Driver"
+			url="jdbc:mysql://db.gemantic.weibo:3307/gemanticWeibo?defaultBatchValue=1000"
+			username="username"
+			password="password!"
+			maxActive="50"
+			maxIdle="50"
+			maxWait="10"
+            check="true"
+		/>
+		<ds name="idCenterDS"
+			driverClassName="com.mysql.jdbc.Driver"
+			url="jdbc:mysql://db.gemantic.idGenerator:3306/id_generator?defaultBatchValue=1000"
+			username="analyse"
+			password="GemanticYes!"
+			maxActive=""
+			maxIdle=""
+			maxWait=""
+            check="true"
+		/>
+	</datasources>
+	<groups>
+		<group name="gemanticWeibo" master="gemanticWeibo"  />			
+	</groups>
+</root>
+
+

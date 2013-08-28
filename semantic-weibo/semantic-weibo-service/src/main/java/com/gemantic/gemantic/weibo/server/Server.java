@@ -23,14 +23,14 @@ public class Server {
     public void start() throws Exception {
 
         if (log.isInfoEnabled()) {
-            log.info("===> gemantic-weibo-service Start Begin");
+            log.info("===> semantic-weibo-service Start Begin");
         }
     
-        node = SCANodeFactory.newInstance().createSCANode("META-INF/gemantic-weibo-service/server.composite");
+        node = SCANodeFactory.newInstance().createSCANode("META-INF/semantic-weibo-service/server.composite");
         node.start();
 		
         if (log.isInfoEnabled()) {
-            log.info("===>gemantic-weibo-service");
+            log.info("===>semantic-weibo-service");
         }
     }
 
@@ -59,7 +59,7 @@ public class Server {
             server.run();
             
         } catch (InterruptedException e) {
-            log.error("gemantic-weibo-service server run error ", e);
+            log.error("semantic-weibo-service server run error ", e);
         }
     }
 }
