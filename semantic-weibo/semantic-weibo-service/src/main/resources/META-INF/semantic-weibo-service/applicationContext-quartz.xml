@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sca="http://www.springframework.org/schema/sca"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/sca http://www.springframework.org/schema/sca/spring-sca.xsd">
+
+	<!-- 启动调度 -->
+	<bean id="start"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="weiboTrigger" />
+			</list>
+		</property>
+	</bean>
+
+  
+          <bean id="weiboTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean"> 
+                <property name="jobDetail" ref="weiboJobDetail"/> 
+                <property name="startDelay" value="10000"/> 
+                <property name="repeatCount" value="0"/> 
+             
+        </bean> 
+      
+        <bean id="weiboJobDetail"   class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">     
+                <property name="targetObject" ref="weiboEtl"/> 
+                <property name="targetMethod" value="process"/> 
+                <property name="concurrent" value="false" /> 
+        </bean> 
+   
+	
+</beans>

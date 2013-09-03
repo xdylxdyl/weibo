@@ -26,10 +26,16 @@
   </service>
 	
 	
-	 	  <service name="weiboMongoDBService" promote="SemanticWeiboComponent/weiboMongoDBService">
+	 <service name="weiboMongoDBService" promote="GemanticWeiboComponent/weiboMongoDBService">
     <interface.java interface="com.gemantic.gemantic.weibo.service.WeiboMongoDBService"/> 
     <scallop:binding.rmi host="localhost" port="8801" serviceName="WeiboMongoDBRMIService"/>     
   </service>
+  
+  
+  <reference name="brandCompanyService" promote="GemanticWeiboComponent/brandCompanyService">
+		<interface.java interface="com.gemantic.brand.company.service.BrandCompanyService" />
+		<scallop:binding.rmi registryName="gemantic-brand-company-service-rmi" serviceName="BrandCompanyRMIService" />
+	</reference>
 	
   
 	

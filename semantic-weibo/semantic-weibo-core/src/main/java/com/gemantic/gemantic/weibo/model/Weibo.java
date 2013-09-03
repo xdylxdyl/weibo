@@ -32,6 +32,8 @@ public class Weibo implements Serializable {
 	private Integer commentCount;
 
 	private Integer forwardCount;
+	
+	private String forwardWeiBo;
 
 	private String authorID;
 
@@ -146,6 +148,17 @@ public class Weibo implements Serializable {
 
 	public void setCreateAt(Long createAt) {
 		this.createAt = createAt;
+	}
+	
+	
+	
+
+	public String getForwardWeiBo() {
+		return forwardWeiBo;
+	}
+	@Column(name = "forward_weibo")
+	public void setForwardWeiBo(String forwardWeiBo) {
+		this.forwardWeiBo = forwardWeiBo;
 	}
 
 	public String toString() {

@@ -9,7 +9,9 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
             http://www.springframework.org/schema/sca http://www.springframework.org/schema/sca/spring-sca.xsd">
 
-	<context:component-scan base-package="com.gemantic.gemantic.weibo" />
+	<context:component-scan base-package="com.gemantic.gemantic.weibo" />	
+	<import
+		resource="classpath:META-INF/semantic-weibo-service/applicationContext-quartz.xml" />
 
 
 	<sca:service name="eventService"
@@ -29,11 +31,12 @@
 		target="companyExtendeventService" />
 
 
-<sca:service name="weiboMongoDBService"
-		type="com.gemantic.gemantic.weibo.service.WeiboService" target="weiboMongoDBService" />
+	<sca:service name="weiboMongoDBService"
+		type="com.gemantic.gemantic.weibo.service.WeiboMongoDBService" target="weiboMongoDBService" />
 
 
-
+	<sca:reference name="brandCompanyService"
+		type="com.gemantic.brand.company.service.BrandCompanyService" />
 
 
 
@@ -64,14 +67,33 @@
 	</bean>
 
 	<bean id="weiboMongoDBService"
-		class="com.gemantic.gemantic.weibo.service.impl.WeiboMongoDBServiceImpl"> 
+		class="com.gemantic.gemantic.weibo.service.impl.WeiboMongoDBServiceImpl">
 		<property name="ip" value="112.124.47.234" />
 		<property name="port" value="27017" />
 	</bean>
-		
-		
+
+	<bean id="weiboService"
+		class="com.gemantic.gemantic.weibo.service.impl.WeiboServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+
+
+
 	<bean id="dao" class="com.gemantic.dal.dao.impl.CompositeDaoImpl" />
 
+
+
+	<bean id="weiboEtl"
+		class="com.gemantic.gemantic.weibo.etl.WeiboEtl">	
+		<property name="weiboService" ref="weiboService" />
+		<property name="weiboMongoDBService" ref="weiboMongoDBService" />
+		<property name="eventService" ref="eventService" />
+		<property name="companyEventService" ref="companyEventService" />
+		<property name="companyExtendeventService" ref="companyExtendeventService" />
+		<property name="companyNewsService" ref="companyNewsService" />
+		<property name="brandCompanyService" ref="brandCompanyService" />
+		
+	</bean>
 
 
 

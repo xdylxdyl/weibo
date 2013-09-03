@@ -1,49 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>semantic-com</groupId>
-  <artifactId>semantic-weibo</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>semantic-weibo-core</module>
-  	<module>semantic-weibo-service</module>
-  </modules>
-  
-  
-  
-  
-  <repositories>
-		<repository>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-			<id>nexus</id>
-			<name>releases</name>
-			<url>http://42.121.113.70:8081/nexus/content/repositories/releases</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>semantic-com</groupId>
+	<artifactId>semantic-weibo</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>semantic-weibo-core</module>
+		<module>semantic-weibo-service</module>
+	</modules>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>nexus</id>
-			<name>releases</name>
-			<url>http://42.121.113.70:8081/nexus/content/repositories/releases</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+
+
+
 
 
 
@@ -778,16 +747,30 @@
 			<version>2.9.3</version>
 
 		</dependency>
-	   
-		
-		
+
+
+
 	</dependencies>
 
 
 
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>releases</name>
+			<url>http://mvn.gemantic.com/content/repositories/releases</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>snapshots</name>
+			<url>http://mvn.gemantic.com/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 
 
-	
-  
+
+
+
 </project>
