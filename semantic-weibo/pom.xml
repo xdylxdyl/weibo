@@ -788,36 +788,6 @@
 
 
 
-	<build>
-		<finalName>analyse-chatroom-home</finalName>
-		<plugins>
-
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>utf-8</encoding>
-				</configuration>
-
-
-
-			</plugin>
-
-
-
-
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://svn.gemantic.com/gemantic/tags/analyse-chatroom-home</tagBase>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	
   
 </project>

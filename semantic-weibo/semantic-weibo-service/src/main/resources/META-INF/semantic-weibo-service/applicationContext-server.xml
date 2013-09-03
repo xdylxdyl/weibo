@@ -29,7 +29,8 @@
 		target="companyExtendeventService" />
 
 
-
+<sca:service name="weiboMongoDBService"
+		type="com.gemantic.gemantic.weibo.service.WeiboService" target="weiboMongoDBService" />
 
 
 
@@ -62,7 +63,13 @@
 		<property name="dao" ref="dao" />
 	</bean>
 
-
+	<bean id="weiboMongoDBService"
+		class="com.gemantic.gemantic.weibo.service.impl.WeiboMongoDBServiceImpl"> 
+		<property name="ip" value="112.124.47.234" />
+		<property name="port" value="27017" />
+	</bean>
+		
+		
 	<bean id="dao" class="com.gemantic.dal.dao.impl.CompositeDaoImpl" />
 
 

@@ -3,16 +3,18 @@
 	<route>
 		<object name="com.gemantic.gemantic.weibo.model.Event"
 			listenerClass="" strategyProperty="">
-			
-			
-			
-						
-			
-						
+
+
+
+			<list name="getEventAll" sqlitem="select id from event where 1 = 1 "
+				keyProperty="version" valueProperty="id" keyColumn="version" />
+
+
 			<dbStrategy name="mutiDS"
-                clasz="com.gemantic.dal.route.strategy.DefaultStrategy">  <pattern value="[0-9]$" group="gemanticWeibo" />
-            </dbStrategy>
-			
+				clasz="com.gemantic.dal.route.strategy.DefaultStrategy">
+				<pattern value="[0-9]$" group="gemanticWeibo" />
+			</dbStrategy>
+
 		</object>
 	</route>
 </dal>
