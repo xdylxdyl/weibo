@@ -54,18 +54,17 @@ public class MongoDBTest {
 
 	@Test
 	public void testCRUD() throws ServiceException, ServiceDaoException {
-		Weibo weibo = new Weibo();
-
-		weibo.setId("xdylxdylxdylxdyl");
+		Weibo weibo = new Weibo();		
+		weibo.setWid("xdylxdylxdylxdyl");
 		weibo.setContent("12306事件");
 
 		weibo.setCommentCount(222);
 
 		weibo.setForwardCount(111111);
 
-		weibo.setAuthorID("xdyl");
+		weibo.setAuthorID(1658990180L);
 
-		weibo.setAuthorNick("xdyl");
+	
 
 		weibo.setFromText("官方微博");
 
@@ -75,15 +74,15 @@ public class MongoDBTest {
 
 		boolean insertResult = this.weiboMongoDBService.insert(weibo);
 		log.info("insert result " + insertResult);
-		Weibo weibo2 = this.weiboMongoDBService.get(weibo.getId());
+		Weibo weibo2 = this.weiboMongoDBService.get(weibo.getWid());
 		log.info("get weibo is " + weibo2);
-		weibo2.setAuthorID("gcduan");
+		weibo2.setAuthorID(1658990180L);
 		this.weiboMongoDBService.update(weibo2);
-		Weibo weibo3 = this.weiboMongoDBService.get(weibo.getId());
+		Weibo weibo3 = this.weiboMongoDBService.get(weibo.getWid());
 		log.info("get weibo update " + weibo3);
-		this.weiboMongoDBService.delete(weibo.getId());
+		this.weiboMongoDBService.delete(weibo.getWid());
 
-		Weibo weibo4 = this.weiboMongoDBService.get(weibo.getId());
+		Weibo weibo4 = this.weiboMongoDBService.get(weibo.getWid());
 		log.info("remove weib result is  " + weibo4);
 	}
 

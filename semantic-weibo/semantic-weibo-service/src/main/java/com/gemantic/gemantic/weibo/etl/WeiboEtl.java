@@ -6,9 +6,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.gemantic.brand.company.model.MicroBlogDoc;
@@ -32,12 +29,9 @@ public class WeiboEtl {
 
 	private static final Log log = LogFactory.getLog(WeiboEtl.class);
 
-	
 	private WeiboService weiboService;
 
-	
 	private WeiboMongoDBService weiboMongoDBService;
-
 
 	private EventService eventService;
 
@@ -54,7 +48,6 @@ public class WeiboEtl {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	public void process() throws ServiceException, ServiceDaoException,
 			InterruptedException {
 
@@ -66,11 +59,12 @@ public class WeiboEtl {
 				log.info("not get data sleep 5");
 				Thread.sleep(5000);
 			} else {
-				log.info("get data is "+weibos.size());
+				log.info("get data is " + weibos.size());
 				// 2.判断是否为原始微博
 				List<Weibo> processWeibos = new ArrayList();
 				for (Weibo weibo : weibos) {
-					if (StringUtils.isBlank(weibo.getForwardWeiBo())) {
+					weibo.setStatus(1);
+					if (StringUtils.isBlank(weibo.getForwardID())) {
 						// 原创
 						// 2.1 插入MongoDB
 						this.weiboMongoDBService.insert(weibo);
@@ -78,7 +72,7 @@ public class WeiboEtl {
 					} else {
 						// 2.2 是否需要更新转发次数
 
-						Weibo old = this.weiboMongoDBService.get(weibo.getId());
+						Weibo old = this.weiboMongoDBService.get(weibo.getWid());
 						if (old == null) {
 							// 原有的微博不存在.跳过
 							continue;
@@ -100,30 +94,39 @@ public class WeiboEtl {
 					processWeibos.add(weibo);
 
 				}
-				log.info("will process weibos "+processWeibos.size());
+				log.info("will process weibos " + processWeibos.size());
 				// 3.调用NLP模块
 
 				for (Weibo weibo : processWeibos) {
 					MicroBlogDoc mbd = new MicroBlogDoc();
 					mbd.setText(weibo.getContent());
-					mbd.setAuther(weibo.getAuthorID());
-					mbd.setGuid(weibo.getId());
+					mbd.setAuther(String.valueOf(weibo.getAuthorID()));
+					mbd.setGuid(weibo.getWid());
 					MicroBlogDoc result = this.brandCompanyService
 							.getMicroBlogCategory(mbd);
-					
-					List<Event> events=WeiboUtil.doc2Events(result);
+
+					List<Event> events = WeiboUtil.doc2Events(result);
 					this.eventService.insertList(events);
-					
-					List<CompanyEvent> companyEvents=WeiboUtil.doc2CompanyEvents(result);
+
+					List<CompanyEvent> companyEvents = WeiboUtil
+							.doc2CompanyEvents(result);
 					this.companyEventService.insertList(companyEvents);
-					
-					List<CompanyExtendevent> companyExtendevents=WeiboUtil.doc2CompanyExtendEvents(result);
-					this.companyExtendeventService.insertList(companyExtendevents);
-					
-					List<CompanyNews> companyNews=WeiboUtil.doc2CompanyNews(result,"weibo");
+
+					List<CompanyExtendevent> companyExtendevents = WeiboUtil
+							.doc2CompanyExtendEvents(result);
+					this.companyExtendeventService
+							.insertList(companyExtendevents);
+
+					List<CompanyNews> companyNews = WeiboUtil.doc2CompanyNews(
+							result, "weibo");
 					this.companyNewsService.insertList(companyNews);
 
 				}
+				
+				log.info("start update status");
+				this.weiboService.updateList(weibos);
+				
+				
 				log.info("process over ");
 
 			}
@@ -136,11 +139,15 @@ public class WeiboEtl {
 	 * 获取最新的微博
 	 * 
 	 * @return
+	 * @throws ServiceDaoException 
+	 * @throws ServiceException 
 	 */
 
-	private List<Weibo> getWeiBo() {
-		// TODO Auto-generated method stub
-		return null;
+	private List<Weibo> getWeiBo() throws ServiceException, ServiceDaoException {
+		List<Long> ids=this.weiboService.getWeiboIdsByStatus(0, 0, 100);
+		log.info("get ids size "+ids);
+		List<Weibo> weibos=this.weiboService.getObjectsByIds(ids);
+		return weibos;
 	}
 
 	public WeiboService getWeiboService() {
@@ -199,10 +206,5 @@ public class WeiboEtl {
 	public void setBrandCompanyService(BrandCompanyService brandCompanyService) {
 		this.brandCompanyService = brandCompanyService;
 	}
-	
-	
-	
-	
-	
 
 }

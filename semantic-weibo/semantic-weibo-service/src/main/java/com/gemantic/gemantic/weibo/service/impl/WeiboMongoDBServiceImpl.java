@@ -49,7 +49,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 	@Override
 	public boolean insert(Weibo weibo) throws ServiceException,
 			ServiceDaoException {
-		Weibo old = this.get(weibo.getId());
+		Weibo old = this.get(weibo.getWid());
 		if (old == null) {
 			DBObject dbObject = (DBObject) JSON.parse(WeiboUtil
 					.weibo2Json(weibo));
@@ -79,7 +79,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 	@Override
 	public boolean update(Weibo weibo) throws ServiceException,
 			ServiceDaoException {
-		Weibo old = this.get(weibo.getId());
+		Weibo old = this.get(weibo.getWid());
 		if (old == null) {
 			log.error("not exist " + weibo);
 			return false;

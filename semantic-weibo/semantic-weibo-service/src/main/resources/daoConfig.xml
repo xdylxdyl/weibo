@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dal>
 	<list>
-		
-				
-		
+
+
+
 		<config>
 			<path>event_dao.xml</path>
 		</config>
-				
-		
+
+
 		<config>
 			<path>companyEvent_dao.xml</path>
 		</config>
-				
-		
+
+
 		<config>
 			<path>companyNews_dao.xml</path>
 		</config>
-				
-		
+
+
 		<config>
 			<path>companyExtendevent_dao.xml</path>
 		</config>
-					
+
+
+		<config>
+			<path>weibo_dao.xml</path>
+		</config>
+
 	</list>
 
 	<default>

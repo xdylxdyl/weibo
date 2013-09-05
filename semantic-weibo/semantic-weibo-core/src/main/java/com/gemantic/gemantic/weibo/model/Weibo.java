@@ -17,27 +17,25 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
-@Table(name = "weibo")
+@Table(name = "dr_miniblog_item")
 public class Weibo implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6549083336548963328L;
+	private static final long serialVersionUID = 8715698316616461312L;
 
-	private String id;
+	private Long id;
+
+	private String wid;
 
 	private String content;
 
 	private Integer commentCount;
 
 	private Integer forwardCount;
-	
-	private String forwardWeiBo;
 
-	private String authorID;
-
-	private String authorNick;
+	private Long authorID;
 
 	private String fromText;
 
@@ -45,22 +43,35 @@ public class Weibo implements Serializable {
 
 	private Long publishAt;
 
+	private int status;
+
+	private String forwardID;
+
 	private Long updateAt;
 
 	private Long createAt;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	public String getId() {
+	@Column(name = "i_item_id")
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	@Column(name = "content")
+	@Column(name = "g_item_id")
+	public String getWid() {
+		return wid;
+	}
+
+	public void setWid(String wid) {
+		this.wid = wid;
+	}
+
+	@Column(name = "c_item_text")
 	public String getContent() {
 		return content;
 	}
@@ -69,7 +80,7 @@ public class Weibo implements Serializable {
 		this.content = content;
 	}
 
-	@Column(name = "commentCount")
+	@Column(name = "i_item_comment")
 	public Integer getCommentCount() {
 		return commentCount;
 	}
@@ -78,7 +89,7 @@ public class Weibo implements Serializable {
 		this.commentCount = commentCount;
 	}
 
-	@Column(name = "forwardCount")
+	@Column(name = "i_item_rt_src")
 	public Integer getForwardCount() {
 		return forwardCount;
 	}
@@ -87,25 +98,16 @@ public class Weibo implements Serializable {
 		this.forwardCount = forwardCount;
 	}
 
-	@Column(name = "author_id")
-	public String getAuthorID() {
+	@Column(name = "i_user_id")
+	public Long getAuthorID() {
 		return authorID;
 	}
 
-	public void setAuthorID(String authorID) {
+	public void setAuthorID(Long authorID) {
 		this.authorID = authorID;
 	}
 
-	@Column(name = "author_nick")
-	public String getAuthorNick() {
-		return authorNick;
-	}
-
-	public void setAuthorNick(String authorNick) {
-		this.authorNick = authorNick;
-	}
-
-	@Column(name = "from_text")
+	@Column(name = "c_source_name")
 	public String getFromText() {
 		return fromText;
 	}
@@ -114,7 +116,7 @@ public class Weibo implements Serializable {
 		this.fromText = fromText;
 	}
 
-	@Column(name = "link")
+	@Column(name = "c_item_url")
 	public String getLink() {
 		return link;
 	}
@@ -123,13 +125,31 @@ public class Weibo implements Serializable {
 		this.link = link;
 	}
 
-	@Column(name = "publishAt")
+	@Column(name = "i_item_pub")
 	public Long getPublishAt() {
 		return publishAt;
 	}
 
 	public void setPublishAt(Long publishAt) {
 		this.publishAt = publishAt;
+	}
+
+	@Column(name = "status")
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@Column(name = "g_item_ref")
+	public String getForwardID() {
+		return forwardID;
+	}
+
+	public void setForwardID(String forwardID) {
+		this.forwardID = forwardID;
 	}
 
 	@Column(name = "update_at")
@@ -148,17 +168,6 @@ public class Weibo implements Serializable {
 
 	public void setCreateAt(Long createAt) {
 		this.createAt = createAt;
-	}
-	
-	
-	
-
-	public String getForwardWeiBo() {
-		return forwardWeiBo;
-	}
-	@Column(name = "forward_weibo")
-	public void setForwardWeiBo(String forwardWeiBo) {
-		this.forwardWeiBo = forwardWeiBo;
 	}
 
 	public String toString() {

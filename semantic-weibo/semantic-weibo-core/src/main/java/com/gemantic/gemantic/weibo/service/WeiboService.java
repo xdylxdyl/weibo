@@ -1,7 +1,6 @@
 package com.gemantic.gemantic.weibo.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.osoa.sca.annotations.Remotable;
 
@@ -43,13 +42,20 @@ public interface WeiboService {
     	   
 		
 		public List<Weibo> getObjectsByIds(List<Long> ids)throws ServiceException, ServiceDaoException;
-		
-		
-		
 		  
     	
 	
 
+			
+			
+	/**
+	 * 
+	 * @param 
+	 * @return 
+	 * @throws ServiceException
+	 * @throws ServiceDaoException
+	 */
+	public List<Long>  getWeiboIdsByStatus(int status,Integer start,Integer limit)throws ServiceException, ServiceDaoException;
 		
 	
 

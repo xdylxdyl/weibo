@@ -1,19 +1,11 @@
 package com.gemantic.gemantic.weibo.service.impl;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-
-import org.osoa.sca.annotations.Remotable;
-
-
-
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
@@ -257,6 +249,52 @@ return result;
     	
 		
 	
+	
+			
+			
+		/**
+	 * 
+	 * @param 
+	 * @return 
+	 * @throws ServiceException
+	 * @throws ServiceDaoException
+	 */
+	 @Override
+	public List<Long>  getWeiboIdsByStatus(int status,Integer start,Integer limit)throws ServiceException, ServiceDaoException{
+		
+		       if(log.isInfoEnabled()){
+      log.info(" get ids by status,start,limit  : " + status+" , "+start+" , "+limit );
+	  }
+	 	List<Long> idList = null;
+        
+        // TODO 参数检查!
+
+        if (start == null) {
+            start = 0;
+        }
+
+        if (limit == null) {
+            limit = Integer.MAX_VALUE;
+        }
+
+	try {
+		idList = dao.getIdList("getWeiboIdsByStatus", new Object[] { status},start,limit, false);
+
+   
+   } catch (DaoException e) {
+			log.error(" get ids  wrong by status,start,limit)  : " + status+" , "+start+" , "+limit );
+			log.error(e);
+			e.printStackTrace();
+			throw new ServiceDaoException(e);
+		}
+  if(log.isInfoEnabled()){
+   log.info(" get ids success : " + (idList == null ? "null" : idList.size()));
+  }
+		return idList;
+		
+	
+	
+	}
 	
 		
 	
