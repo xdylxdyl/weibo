@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sca="http://www.springframework.org/schema/sca"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/sca http://www.springframework.org/schema/sca/spring-sca.xsd">
+
+	<context:component-scan base-package="com.gemantic.gemantic.weibo" />	
+	
+
+
+
+
+
+
+
+
+	<bean id="eventService"
+		class="com.gemantic.gemantic.weibo.service.impl.EventServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+
+	<bean id="companyEventService"
+		class="com.gemantic.gemantic.weibo.service.impl.CompanyEventServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+
+	<bean id="companyNewsService"
+		class="com.gemantic.gemantic.weibo.service.impl.CompanyNewsServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+
+	<bean id="companyExtendeventService"
+		class="com.gemantic.gemantic.weibo.service.impl.CompanyExtendeventServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+
+	<bean id="weiboMongoDBService"
+		class="com.gemantic.gemantic.weibo.service.impl.WeiboMongoDBServiceImpl">
+		<property name="ip" value="112.124.47.234" />
+		<property name="port" value="27017" />
+	</bean>
+
+	<bean id="weiboService"
+		class="com.gemantic.gemantic.weibo.service.impl.WeiboServiceImpl">
+		<property name="dao" ref="dao" />
+	</bean>
+
+
+
+	<bean id="dao" class="com.gemantic.dal.dao.impl.CompositeDaoImpl" />
+
+
+
+	<bean id="weiboEtl"
+		class="com.gemantic.gemantic.weibo.etl.WeiboEtl">	
+		<property name="weiboService" ref="weiboService" />
+		<property name="weiboMongoDBService" ref="weiboMongoDBService" />
+		<property name="eventService" ref="eventService" />
+		<property name="companyEventService" ref="companyEventService" />
+		<property name="companyExtendeventService" ref="companyExtendeventService" />
+		<property name="companyNewsService" ref="companyNewsService" />
+	
+		
+	</bean>
+
+
+
+
+
+
+	<!-- performance -->
+	<aop:aspectj-autoproxy />
+	<bean id="aroundLoggingTime" class="com.gemantic.common.stat.aop.time.AroundTimeConsume" />
+	<aop:config>
+		<aop:aspect ref="aroundLoggingTime">
+			<aop:pointcut id="publicServiceMethod"
+				expression="execution(* com.gemantic..service.*.*(..)) " />
+			<aop:around method="around" pointcut-ref="publicServiceMethod" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>
+

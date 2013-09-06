@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,19 +17,19 @@ import com.gemantic.gemantic.weibo.service.EventService;
 
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
-
+@Ignore
 public class EventServiceTest {
 
 	private static final Log log = LogFactory.getLog(EventServiceTest.class);
 
 	private EventService eventService;
 
-	// @Before
+	 @Before
 	public void setUp() throws Exception {
 
 		// dao
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:META-INF/semantic-weibo-service/applicationContext-server.xml");
+				"classpath:applicationContext-server.xml");
 		eventService = (EventService) context.getBean("eventService");
 		// local server
 		/**
@@ -45,7 +46,7 @@ public class EventServiceTest {
 
 	}
 
-	// @Test
+	 @Test
 	public void testCRUD() throws ServiceException, ServiceDaoException {
 
 		// 1.增加
@@ -138,7 +139,7 @@ public class EventServiceTest {
 		Assert.assertEquals(2, getResults.size());
 
 		for (Event o : insertResults) {
-			this.eventService.delete(o.getId());
+			//this.eventService.delete(o.getId());
 		}
 
 		// 6.batchUpdate
@@ -149,4 +150,9 @@ public class EventServiceTest {
 	public void testNULL() throws ServiceException, ServiceDaoException {
 
 	};
+	@Test
+	public void testList() throws ServiceException, ServiceDaoException{
+		List<Long> event=this.eventService.getAllEvent(0, 10);
+		log.info(event);
+	}
 }

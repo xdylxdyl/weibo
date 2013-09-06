@@ -84,7 +84,7 @@ public class WeiboUtil {
 			cevent.setSource(Event.Source_Weibo);
 			cevent.setCount(result.getCount());
 			cevent.setNid(result.getGuid());
-			
+		
 			cevents.add(cevent);
 
 		}

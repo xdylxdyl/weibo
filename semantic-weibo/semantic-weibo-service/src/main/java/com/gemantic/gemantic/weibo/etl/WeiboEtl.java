@@ -48,103 +48,116 @@ public class WeiboEtl {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void process() throws ServiceException, ServiceDaoException,
-			InterruptedException {
+	public void process() throws InterruptedException {
 
 		// 1.get weib of news
 
 		while (true) {
-			List<Weibo> weibos = getWeiBo();
-			if (CollectionUtils.isEmpty(weibos)) {
-				log.info("not get data sleep 5");
-				Thread.sleep(5000);
-			} else {
-				log.info("get data is " + weibos.size());
-				// 2.判断是否为原始微博
-				List<Weibo> processWeibos = new ArrayList();
-				for (Weibo weibo : weibos) {
-					weibo.setStatus(1);
-					if (StringUtils.isBlank(weibo.getForwardID())) {
-						// 原创
-						// 2.1 插入MongoDB
-						this.weiboMongoDBService.insert(weibo);
-
-					} else {
-						// 2.2 是否需要更新转发次数
-
-						Weibo old = this.weiboMongoDBService
-								.get(weibo.getWid());
-						if (old == null) {
-							// 原有的微博不存在.跳过
-							continue;
-						} else {
-							if (old.getForwardCount() >= weibo
-									.getForwardCount()) {
-								// 转发数无更新
-								continue;
-							} else {
-
-								old.setForwardCount(weibo.getForwardCount());
-								this.weiboMongoDBService.update(old);
-
-							}
-
-						}
-
-					}
-					processWeibos.add(weibo);
-
-				}
-				log.info("will process weibos " + processWeibos.size());
-				// 3.调用NLP模块
-
-				for (Weibo weibo : processWeibos) {
-					MicroBlogDoc mbd = new MicroBlogDoc();
-					mbd.setText(weibo.getContent());
-					mbd.setAuther(String.valueOf(weibo.getAuthorID()));
-					mbd.setGuid(weibo.getWid());
-					mbd.setDate(weibo.getPublishAt());
-					mbd.setCount(weibo.getForwardCount());
-					MicroBlogDoc result = this.brandCompanyService
-							.getMicroBlogCategory(mbd);
-					if (result == null) {
-						log.info(weibo.getWid() + " not get any result ");
-						continue;
-					}
-
-					WeiboUtil.doc2Events(result, eventService);
-					log.info("process " + result);
-
-					List<CompanyEvent> companyEvents = WeiboUtil
-							.doc2CompanyEvents(result);
-					this.companyEventService.insertList(companyEvents);
-					log.info(weibo.getWid() + " get company events "
-							+ companyEvents.size());
-
-					List<CompanyExtendevent> companyExtendevents = WeiboUtil
-							.doc2CompanyExtendEvents(result);
-					this.companyExtendeventService
-							.insertList(companyExtendevents);
-					log.info(weibo.getWid() + " get companyExtendevents  "
-							+ companyExtendevents.size());
-
-					List<CompanyNews> companyNews = WeiboUtil.doc2CompanyNews(
-							result, "weibo");
-					this.companyNewsService.insertList(companyNews);
-					log.info(weibo.getWid() + " get companyNews  "
-							+ companyNews.size());
-
-				}
-
-				log.info("start update status");
-				this.weiboService.updateList(weibos);
-
-				log.info("process over ");
-
+			
+			try{
+			    processWeibo();
+			}catch (Throwable t){
+				t.printStackTrace();
+				log.error("process error ,sleep 5 min");
+				Thread.sleep(5*60*1000L);
 			}
 
 		}
 
+	}
+
+	private void processWeibo() throws ServiceException, ServiceDaoException,
+			InterruptedException {
+		List<Weibo> weibos = getWeiBo();
+		if (CollectionUtils.isEmpty(weibos)) {
+			log.info("not get data sleep 5");
+			Thread.sleep(5000);
+		} else {
+			log.info("get data is " + weibos.size());
+			// 2.判断是否为原始微博
+			List<Weibo> processWeibos = new ArrayList();
+			for (Weibo weibo : weibos) {
+				weibo.setStatus(1);
+				if (StringUtils.isBlank(weibo.getForwardID())) {
+					// 原创
+					// 2.1 插入MongoDB
+					this.weiboMongoDBService.insert(weibo);
+
+				} else {
+					// 2.2 是否需要更新转发次数
+
+					Weibo old = this.weiboMongoDBService
+							.get(weibo.getWid());
+					if (old == null) {
+						// 原有的微博不存在.跳过
+						continue;
+					} else {
+						if (old.getForwardCount() >= weibo
+								.getForwardCount()) {
+							// 转发数无更新
+							continue;
+						} else {
+
+							old.setForwardCount(weibo.getForwardCount());
+							this.weiboMongoDBService.update(old);
+
+						}
+
+					}
+
+				}
+				processWeibos.add(weibo);
+
+			}
+			log.info("will process weibos " + processWeibos.size());
+			// 3.调用NLP模块
+
+			for (Weibo weibo : processWeibos) {
+				MicroBlogDoc mbd = new MicroBlogDoc();
+				mbd.setText(weibo.getContent());
+				mbd.setAuther(String.valueOf(weibo.getAuthorID()));
+				mbd.setGuid(weibo.getWid());
+				mbd.setDate(weibo.getPublishAt());
+				mbd.setCount(weibo.getForwardCount());
+				MicroBlogDoc result = this.brandCompanyService
+						.getMicroBlogCategory(mbd);
+				if (result == null) {
+					log.info(weibo.getWid() + " not get any result ");
+					continue;
+				}else{
+					//log.info(weibo.getWid()+"get category "+result);
+				}
+
+				WeiboUtil.doc2Events(result, eventService);
+				log.info("process " + result);
+
+				List<CompanyEvent> companyEvents = WeiboUtil
+						.doc2CompanyEvents(result);
+				this.companyEventService.insertList(companyEvents);
+				log.info(weibo.getWid() + " get company events "
+						+ companyEvents.size());
+
+				List<CompanyExtendevent> companyExtendevents = WeiboUtil
+						.doc2CompanyExtendEvents(result);
+				this.companyExtendeventService
+						.insertList(companyExtendevents);
+				log.info(weibo.getWid() + " get companyExtendevents  "
+						+ companyExtendevents.size());
+
+				List<CompanyNews> companyNews = WeiboUtil.doc2CompanyNews(
+						result, "weibo");
+				this.companyNewsService.insertList(companyNews);
+				log.info(weibo.getWid() + " get companyNews  "
+						+ companyNews.size());
+
+			}
+
+			log.info("start update status");
+			this.weiboService.updateList(weibos);
+
+			log.info("process over ");
+
+		}
 	}
 
 	/**

@@ -1,23 +1,22 @@
 package com.gemantic.gemantic.weibo.service.impl;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.junit.Before;
-import java.rmi.Naming;
-
-import com.gemantic.gemantic.weibo.model.CompanyEvent;
-import com.gemantic.gemantic.weibo.service.CompanyEventService;
-
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
-
+import com.gemantic.gemantic.weibo.model.CompanyEvent;
+import com.gemantic.gemantic.weibo.service.CompanyEventService;
+@Ignore
 public class CompanyEventServiceTest {
 
 	private static final Log log = LogFactory
@@ -25,18 +24,18 @@ public class CompanyEventServiceTest {
 
 	private CompanyEventService companyEventService;
 
-	//@Before
+	@Before
 	public void setUp() throws Exception {
 
 		// dao
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:META-INF/semantic-weibo-service/applicationContext-server.xml");
+				"classpath:applicationContext-server.xml");
 		companyEventService = (CompanyEventService) context
 				.getBean("companyEventService");
 		// local server
 
-		companyEventService = (CompanyEventService) Naming
-				.lookup("//localhost:8801/CompanyEventRMIService");
+		/*companyEventService = (CompanyEventService) Naming
+				.lookup("//localhost:8801/CompanyEventRMIService");*/
 
 		/**
 		 * test client ApplicationContext context = new
@@ -48,7 +47,7 @@ public class CompanyEventServiceTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCRUD() throws ServiceException, ServiceDaoException {
 
 		// 1.增加
@@ -89,7 +88,7 @@ public class CompanyEventServiceTest {
 
 		companyEvent5.setEid(4L);
 
-		companyEvent5.setSource("weibo");
+		companyEvent5.setSource("中文");
 
 		list.add(companyEvent5);
 		CompanyEvent companyEvent6 = new CompanyEvent();
@@ -115,7 +114,7 @@ public class CompanyEventServiceTest {
 		Assert.assertEquals(2, getResults.size());
 
 		for (CompanyEvent o : insertResults) {
-			this.companyEventService.delete(o.getId());
+			//this.companyEventService.delete(o.getId());
 		}
 
 		// 6.batchUpdate

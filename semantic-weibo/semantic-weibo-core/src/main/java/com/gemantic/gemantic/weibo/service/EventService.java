@@ -45,6 +45,9 @@ public interface EventService {
 		public List<Event> getObjectsByIds(List<Long> ids)throws ServiceException, ServiceDaoException;
 		
 		
+		
+		public List<Long> getAllEvent(Integer start, Integer limit)throws ServiceException, ServiceDaoException;
+		
 		  
     	
 	

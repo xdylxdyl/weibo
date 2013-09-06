@@ -9,24 +9,19 @@ import org.osoa.sca.annotations.Remotable;
 import com.gemantic.gemantic.weibo.model.Event;
 import com.gemantic.gemantic.weibo.service.EventService;
 
-
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
 import com.gemantic.dal.dao.Dao;
 import com.gemantic.dal.dao.exception.DaoException;
 
-
-
 public class EventServiceImpl implements EventService {
 
-    private Dao dao;
+	private Dao dao;
 
 	private static final Log log = LogFactory.getLog(EventServiceImpl.class);
 
@@ -38,15 +33,13 @@ public class EventServiceImpl implements EventService {
 		this.dao = dao;
 	}
 
+	@Override
+	public Long insert(Event event) throws ServiceException,
+			ServiceDaoException {
 
-		   
-		@Override
-		public Long insert(Event event)throws ServiceException, ServiceDaoException{
-		
-	
-		           if(log.isInfoEnabled()){	
-    log.info(" insert data : " + event);
- }
+		if (log.isInfoEnabled()) {
+			log.info(" insert event data : " + event);
+		}
 		if (event == null) {
 			return null;
 		}
@@ -64,20 +57,20 @@ public class EventServiceImpl implements EventService {
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-      if(log.isInfoEnabled()){
-		log.info(" insert data success : " + result);
-      }
-return result;	
-		}	
-		  
-    	   
-		@Override
-		public List<Event> insertList(List<Event> eventList)throws ServiceException, ServiceDaoException{
-		
-	
-		          	 if(log.isInfoEnabled()){
-        log.info(" insert lists : " + (eventList == null ? "null" : eventList.size()));
-      }
+		if (log.isInfoEnabled()) {
+			log.info(" insert data success : " + result);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Event> insertList(List<Event> eventList)
+			throws ServiceException, ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" insert lists : "
+					+ (eventList == null ? "null" : eventList.size()));
+		}
 		List<Event> resultList = null;
 
 		if (CollectionUtils.isEmpty(eventList)) {
@@ -98,23 +91,20 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-     if(log.isInfoEnabled()){
-		log.info(" insert lists  success : " + (resultList == null ? "null" : resultList.size()));
-      }
+		if (log.isInfoEnabled()) {
+			log.info(" insert lists  success : "
+					+ (resultList == null ? "null" : resultList.size()));
+		}
 		return resultList;
-		
-		
-			
-		}	
-		  
-    	   
-		@Override
-		public boolean delete(Long id)throws ServiceException, ServiceDaoException{
-		
-	
-		             if(log.isInfoEnabled()){
-	    log.info(" delete data : " + id);
-    }
+
+	}
+
+	@Override
+	public boolean delete(Long id) throws ServiceException, ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" delete data : " + id);
+		}
 		boolean result = false;
 
 		if (id == null) {
@@ -129,20 +119,18 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-   if(log.isInfoEnabled()){
-		log.info(" delete data success : " + id);
-    }
+		if (log.isInfoEnabled()) {
+			log.info(" delete data success : " + id);
+		}
 		return result;
-		
-		}	
-		  
-    	   
-		@Override
-		public boolean update(Event event)throws ServiceException, ServiceDaoException{
-		
-	
-		          
-	log.info(" update data : " + (event == null ? "null" : event.getId()));
+
+	}
+
+	@Override
+	public boolean update(Event event) throws ServiceException,
+			ServiceDaoException {
+
+		log.info(" update data : " + (event == null ? "null" : event.getId()));
 
 		boolean result = false;
 
@@ -160,18 +148,18 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-       if(log.isInfoEnabled()){
-		log.info(" update data success : " + event);
-       }
-		return result;	
-		}	
-		  
-    	   
-		@Override
-		public boolean updateList(List<Event> eventList)throws ServiceException, ServiceDaoException{
-		
-	
-		          log.info(" update lists : " + (eventList == null ? "null" : eventList.size()));
+		if (log.isInfoEnabled()) {
+			log.info(" update data success : " + event);
+		}
+		return result;
+	}
+
+	@Override
+	public boolean updateList(List<Event> eventList) throws ServiceException,
+			ServiceDaoException {
+
+		log.info(" update lists : "
+				+ (eventList == null ? "null" : eventList.size()));
 
 		boolean result = false;
 
@@ -192,20 +180,19 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-         if(log.isInfoEnabled()){
-		log.info(" update lists success : " + eventList.size());
-         }
-		return result;	
-		}	
-		  
-    	   
-		@Override
-		public Event getObjectById(Long id)throws ServiceException, ServiceDaoException{
-		
-	
-		                 if(log.isInfoEnabled()){
-        log.info(" get data : " + id);
-       }
+		if (log.isInfoEnabled()) {
+			log.info(" update lists success : " + eventList.size());
+		}
+		return result;
+	}
+
+	@Override
+	public Event getObjectById(Long id) throws ServiceException,
+			ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" get data : " + id);
+		}
 		Event event = null;
 
 		if (id == null) {
@@ -220,20 +207,19 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-       if(log.isInfoEnabled()){
-		log.info(" get data success : " + id);
-        }
-		return event;		
-		}	
-		  
-    	   
-		@Override
-		public List<Event> getObjectsByIds(List<Long> ids)throws ServiceException, ServiceDaoException{
-		
-	
-		          	  if(log.isInfoEnabled()){
-	    log.info(" get lists : " + (ids == null ? "null" : ids));
-      }
+		if (log.isInfoEnabled()) {
+			log.info(" get data success : " + id);
+		}
+		return event;
+	}
+
+	@Override
+	public List<Event> getObjectsByIds(List<Long> ids) throws ServiceException,
+			ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" get lists : " + (ids == null ? "null" : ids));
+		}
 		List<Event> event = null;
 
 		if (CollectionUtils.isEmpty(ids)) {
@@ -248,18 +234,54 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-     if(log.isInfoEnabled()){
-		log.info(" get data success : " + (event == null ? "null" : event.size()));
-     }
-		return event;	
-		}	
-		  
-    	
-		
+		if (log.isInfoEnabled()) {
+			log.info(" get data success : "
+					+ (event == null ? "null" : event.size()));
+		}
+		return event;
+	}
+
+	@Override
+	public List<Long> getAllEvent(Integer start, Integer limit) throws ServiceException,
+			ServiceDaoException {
+
+
+		if (log.isInfoEnabled()) {
+			log.info(" get all ids ,start,limit  :  " + start + " , " + limit);
+		}
+		List<Long> idList = null;
+
+		// TODO 参数检查!
+
+		if (start == null) {
+			start = 0;
+		}
+
+		if (limit == null) {
+			limit = Integer.MAX_VALUE;
+		}
+
+		try {
+			// idList = (List<Long>)
+			// dao.excuteSimpleSql("select id from records where version = "+version,
+			// Records.class);
+			idList = dao.getIdList("getEventAll", new Object[] {}, start, limit,
+					false);
+
+		} catch (DaoException e) {
+			log.error(" get ids  wrong by version,start,limit)  , " + start
+					+ " , " + limit);
+			log.error(e);
+			e.printStackTrace();
+			throw new ServiceDaoException(e);
+		}
+		if (log.isInfoEnabled()) {
+			log.info(" get ids success : "
+					+ (idList == null ? "null" : idList.size()));
+		}
+		return idList;
+
 	
-	
-		
-	
+	}
 
 }
-
