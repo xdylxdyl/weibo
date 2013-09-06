@@ -54,6 +54,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 			DBObject dbObject = (DBObject) JSON.parse(WeiboUtil
 					.weibo2Json(weibo));
 			collection.insert(dbObject);
+			log.info(weibo+" insert  success");
 			return true;
 		} else {
 			log.error("already exist " + weibo);
@@ -71,6 +72,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 			return true;
 		} else {
 			collection.remove(new BasicDBObject().append("id", id));
+			log.info(id+" remove  success");
 			return true;
 		}
 
@@ -90,6 +92,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 					.weibo2Json(weibo));
 			collection.update(new BasicDBObject().append("id", weibo.getId()),
 					dbObject2);
+			log.info(weibo+" update  success");
 			return true;
 		}
 
@@ -101,6 +104,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 		query.put("id", id);
 		DBCursor cursor = collection.find(query);
 		if (cursor.hasNext()) {
+			log.info(id+" get  success");
 			DBObject dbObject = cursor.next();
 			String json = JSON.serialize(dbObject);
 			return WeiboUtil.json2Weibo(json);

@@ -25,6 +25,8 @@ public class CompanyEvent implements Serializable {
 	 */
 	private static final long serialVersionUID = 4821914498404907008L;
 
+	
+
 	private Long id;
 
 	private String companyUri;

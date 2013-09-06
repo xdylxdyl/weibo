@@ -23,7 +23,7 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.util.JSON;
 
-
+@Ignore
 public class MongoDBTest {
 	private static final Log log = LogFactory.getLog(MongoDBTest.class);
 
@@ -106,13 +106,13 @@ public class MongoDBTest {
 		 * log.info("success");
 		 */
 
-		/*
-		 * String json
-		 * ="{'id':4,'database' : 'mkyongDB','tableupdate' : 'hosting',"+
-		 * "'detail' : {'records' : 99, 'index' : 'vps_index1', 'active' : 'true'}}}"
-		 * ; DBObject dbObject =(DBObject)JSON.parse(json);
-		 * collection.insert(dbObject);
-		 */
+		
+		  String json
+		  ="{'id':4,'database' : 'mkyongDB','tableupdate' : 'hosting',"+
+		  "'detail' : {'records' : 99, 'index' : 'vps_index1', 'active' : 'true'}}}"
+		  ; DBObject dbObject =(DBObject)JSON.parse(json);
+		  collection.insert(dbObject);
+		 
 		String json2 = "{'id':4,'database' : 'mkyongDB','tableupdate' : 'xdylxdyl','detail' : {'records' : 99, 'index' : 'vps_index1', 'active' : 'true'}}}";
 		String json3 = "{'tableupdate':'xdylxdyl'}";
 		DBObject dbObject2 = (DBObject) JSON.parse(json2);

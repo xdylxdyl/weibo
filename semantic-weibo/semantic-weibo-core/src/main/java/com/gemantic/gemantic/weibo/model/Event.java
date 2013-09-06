@@ -24,6 +24,8 @@ public class Event implements Serializable{
 	 */
 	private static final long serialVersionUID = 6013793496066466816L;	
 	
+	public static final String Source_Weibo = "weibo";
+	public static final String Source_News = "news";
 		
    	 
     private  Long id;

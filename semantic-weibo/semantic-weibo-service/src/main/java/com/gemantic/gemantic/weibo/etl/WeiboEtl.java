@@ -72,7 +72,8 @@ public class WeiboEtl {
 					} else {
 						// 2.2 是否需要更新转发次数
 
-						Weibo old = this.weiboMongoDBService.get(weibo.getWid());
+						Weibo old = this.weiboMongoDBService
+								.get(weibo.getWid());
 						if (old == null) {
 							// 原有的微博不存在.跳过
 							continue;
@@ -102,31 +103,42 @@ public class WeiboEtl {
 					mbd.setText(weibo.getContent());
 					mbd.setAuther(String.valueOf(weibo.getAuthorID()));
 					mbd.setGuid(weibo.getWid());
+					mbd.setDate(weibo.getPublishAt());
+					mbd.setCount(weibo.getForwardCount());
 					MicroBlogDoc result = this.brandCompanyService
 							.getMicroBlogCategory(mbd);
+					if (result == null) {
+						log.info(weibo.getWid() + " not get any result ");
+						continue;
+					}
 
-					List<Event> events = WeiboUtil.doc2Events(result);
-					this.eventService.insertList(events);
+					WeiboUtil.doc2Events(result, eventService);
+					log.info("process " + result);
 
 					List<CompanyEvent> companyEvents = WeiboUtil
 							.doc2CompanyEvents(result);
 					this.companyEventService.insertList(companyEvents);
+					log.info(weibo.getWid() + " get company events "
+							+ companyEvents.size());
 
 					List<CompanyExtendevent> companyExtendevents = WeiboUtil
 							.doc2CompanyExtendEvents(result);
 					this.companyExtendeventService
 							.insertList(companyExtendevents);
+					log.info(weibo.getWid() + " get companyExtendevents  "
+							+ companyExtendevents.size());
 
 					List<CompanyNews> companyNews = WeiboUtil.doc2CompanyNews(
 							result, "weibo");
 					this.companyNewsService.insertList(companyNews);
+					log.info(weibo.getWid() + " get companyNews  "
+							+ companyNews.size());
 
 				}
-				
+
 				log.info("start update status");
 				this.weiboService.updateList(weibos);
-				
-				
+
 				log.info("process over ");
 
 			}
@@ -139,14 +151,14 @@ public class WeiboEtl {
 	 * 获取最新的微博
 	 * 
 	 * @return
-	 * @throws ServiceDaoException 
-	 * @throws ServiceException 
+	 * @throws ServiceDaoException
+	 * @throws ServiceException
 	 */
 
 	private List<Weibo> getWeiBo() throws ServiceException, ServiceDaoException {
-		List<Long> ids=this.weiboService.getWeiboIdsByStatus(0, 0, 100);
-		log.info("get ids size "+ids);
-		List<Weibo> weibos=this.weiboService.getObjectsByIds(ids);
+		List<Long> ids = this.weiboService.getWeiboIdsByStatus(0, 0, 100);
+		log.info("get ids size " + ids);
+		List<Weibo> weibos = this.weiboService.getObjectsByIds(ids);
 		return weibos;
 	}
 
