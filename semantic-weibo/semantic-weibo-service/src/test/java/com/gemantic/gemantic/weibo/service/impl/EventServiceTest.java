@@ -17,7 +17,7 @@ import com.gemantic.gemantic.weibo.service.EventService;
 
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
-@Ignore
+//@Ignore
 public class EventServiceTest {
 
 	private static final Log log = LogFactory.getLog(EventServiceTest.class);
@@ -28,13 +28,13 @@ public class EventServiceTest {
 	public void setUp() throws Exception {
 
 		// dao
-		ApplicationContext context = new ClassPathXmlApplicationContext(
+		/*ApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:applicationContext-server.xml");
-		eventService = (EventService) context.getBean("eventService");
+		eventService = (EventService) context.getBean("eventService");*/
 		// local server
 		
-	/*	  eventService = (EventService)
-		  Naming.lookup("//10.0.0.40:8801/EventRMIService");*/
+		  eventService = (EventService)
+		  Naming.lookup("//10.0.0.20:8801/EventRMIService");
 		
 
 		/**
