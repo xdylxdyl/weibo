@@ -15,6 +15,66 @@
 			<version>${tuscany.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.gemantic.dao</groupId>
+			<artifactId>dao-core</artifactId>
+			<version>1.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>hibernate-c3p0</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-aop</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.gemantic.analyse</groupId>
+			<artifactId>analyse-common-core</artifactId>
+			<version>1.17</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+			<exclusion>
+				<artifactId>hibernate-c3p0</artifactId>
+				<groupId>org.hibernate</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-beans</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-context</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-core</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>spring-aop</artifactId>
+				<groupId>org.springframework</groupId>
+			</exclusion>
+		</exclusions>
+		</dependency>
+
+
+
 
 	</dependencies>
 </project>

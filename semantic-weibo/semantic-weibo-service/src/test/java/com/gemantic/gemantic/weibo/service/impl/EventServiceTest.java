@@ -32,10 +32,10 @@ public class EventServiceTest {
 				"classpath:applicationContext-server.xml");
 		eventService = (EventService) context.getBean("eventService");
 		// local server
-		/**
-		 * eventService = (EventService)
-		 * Naming.lookup("//localhost:8801/EventRMIService");
-		 **/
+		
+	/*	  eventService = (EventService)
+		  Naming.lookup("//10.0.0.40:8801/EventRMIService");*/
+		
 
 		/**
 		 * test client ApplicationContext context = new

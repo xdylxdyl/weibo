@@ -3,9 +3,9 @@
 	<datasources>
 		<ds name="gemanticWeibo"
 			driverClassName="com.mysql.jdbc.Driver"
-			url="jdbc:mysql://rdsr6jrjerqaaru.mysql.rds.aliyuncs.com:3306/weibo?defaultBatchValue=1000&amp;characterEncoding=utf8"
-			username="game"
-			password="xdyl1314"
+			url="jdbc:mysql://gemantic.weibo.db:3307/weibo_db?defaultBatchValue=1000&amp;characterEncoding=utf8"
+			username="weibo"
+			password="weibo_sy31"
 			maxActive="50"
 			maxIdle="50"
 			maxWait="10"
