@@ -1,7 +1,6 @@
 package com.gemantic.gemantic.weibo.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,21 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
-@Table(name = "company_extendevent")
-public class CompanyExtendevent implements Serializable {
+@Table(name = "company_extendnews")
+public class CompanyExtendnews implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3175696715535179776L;
+	private static final long serialVersionUID = 3040182714855457792L;
 
 	private Long id;
 
@@ -31,7 +27,7 @@ public class CompanyExtendevent implements Serializable {
 
 	private String entityUri="";
 
-	private Long eid;
+	private String eid;
 
 	private String source;
 
@@ -52,15 +48,6 @@ public class CompanyExtendevent implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "company_uri")
-	public String getCompanyUri() {
-		return companyUri;
-	}
-
-	public void setCompanyUri(String companyUri) {
-		this.companyUri = companyUri;
-	}
-
 	@Column(name = "entity_uri")
 	public String getEntityUri() {
 		return entityUri;
@@ -70,18 +57,27 @@ public class CompanyExtendevent implements Serializable {
 		this.entityUri = entityUri;
 	}
 
-	@Column(name = "eid")
-	public Long getEid() {
-		return eid;
+	@Column(name = "company_uri")
+	public String getCompanyUri() {
+		return companyUri;
 	}
 
-	public void setEid(Long eid) {
-		this.eid = eid;
+	public void setCompanyUri(String companyUri) {
+		this.companyUri = companyUri;
 	}
 
 	@Column(name = "source")
 	public String getSource() {
 		return source;
+	}
+
+	@Column(name = "nid")
+	public String getEid() {
+		return eid;
+	}
+
+	public void setEid(String eid) {
+		this.eid = eid;
 	}
 
 	public void setSource(String source) {

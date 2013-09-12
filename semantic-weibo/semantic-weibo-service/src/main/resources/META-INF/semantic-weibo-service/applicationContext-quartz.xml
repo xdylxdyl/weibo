@@ -14,24 +14,41 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="weiboTrigger" />
+				 <ref bean="weiboTrigger" /> 
+				<ref bean="newsTrigger" /> 
 			</list>
 		</property>
 	</bean>
 
-  
-          <bean id="weiboTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean"> 
-                <property name="jobDetail" ref="weiboJobDetail"/> 
-                <property name="startDelay" value="10000"/> 
-                <property name="repeatCount" value="0"/> 
-             
-        </bean> 
-      
-        <bean id="weiboJobDetail"   class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">     
-                <property name="targetObject" ref="weiboEtl"/> 
-                <property name="targetMethod" value="process"/> 
-                <property name="concurrent" value="false" /> 
-        </bean> 
-   
-	
+
+	<bean id="weiboTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="weiboJobDetail" />
+		<property name="startDelay" value="10000" />
+		<property name="repeatCount" value="0" />
+
+	</bean>
+
+	<bean id="weiboJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="weiboEtl" />
+		<property name="targetMethod" value="process" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+
+	<bean id="newsTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="newsJobDetail" />
+		<property name="startDelay" value="10000" />
+		<property name="repeatCount" value="0" />
+
+	</bean>
+	<bean id="newsJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="newsEtl" />
+		<property name="targetMethod" value="process" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+
+
 </beans>

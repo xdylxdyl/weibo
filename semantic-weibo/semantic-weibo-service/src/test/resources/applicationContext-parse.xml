@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sca="http://www.springframework.org/schema/sca"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/sca http://www.springframework.org/schema/sca/spring-sca.xsd">
+
+	<bean id="GRHtmlTree" class="com.gemantic.parser.htmltree.GRHtmlTree" >
+	</bean>
+	<bean id="HtmlCleaner" class="org.htmlcleaner.HtmlCleaner" >
+	</bean>
+	
+	<!-- extractors -->
+	<bean id="ArticleTitleExtractor" class="com.gemantic.parser.extractor.impl.ArticleTitleExtractor" >
+	</bean>
+	<bean id="ArticleTimeExtractor" class="com.gemantic.parser.extractor.impl.ArticleTimeExtractor" >
+	</bean>
+	<bean id="ArticleCatExtractor" class="com.gemantic.parser.extractor.impl.ArticleCatExtractor" >
+	</bean>
+	<bean id="ArticleSourceExtractor" class="com.gemantic.parser.extractor.impl.ArticleSourceExtractor" >
+	</bean>			
+	
+	<bean id="PolicyTitleExtractor" class="com.gemantic.parser.extractor.impl.PolicyTitleExtractor" >
+	</bean>	
+	
+	<bean id="ArticleTitleReExtractor" class="com.gemantic.parser.extractor.impl.ArticleTitleReExtractor" >
+	</bean>
+		
+	<!-- checks -->
+	<bean id="ArticleTitleChecker" class="com.gemantic.parser.check.impl.ArticleTitleChecker" >
+	</bean>
+	<bean id="ArticleTimeChecker" class="com.gemantic.parser.check.impl.ArticleTimeChecker" >
+	</bean>
+	<bean id="ArticleContentChecker" class="com.gemantic.parser.check.impl.ArticleContentChecker" >
+	</bean>
+	<bean id="ArticleCatChecker" class="com.gemantic.parser.check.impl.ArticleCatChecker" >
+	</bean>		
+
+            		
+	<bean id="newsParser" class="com.gemantic.parser.impl.NewsParser" init-method="init">
+		<!-- 
+		<property name="htmlTree">
+    		<ref bean="GRHtmlTree" />
+   		</property>
+   		 -->
+		<property name="cleaner">
+    		<ref bean="HtmlCleaner" />
+   		</property>
+
+		<property name="titleReExtactor">
+    		<ref bean="ArticleTitleReExtractor" />
+   		</property>
+   		
+		<property name="extractors">
+			<list>
+				<ref bean="ArticleTitleExtractor" /> <!--  it must first -->
+                <ref bean="ArticleTimeExtractor" />
+                <ref bean="ArticleCatExtractor" />
+                <ref bean="ArticleSourceExtractor" />
+			</list>
+   		</property>
+   		
+		<property name="checkers">
+			<list>
+				<ref bean="ArticleTitleChecker" /> 
+                <ref bean="ArticleTimeChecker" />
+                <ref bean="ArticleContentChecker" />
+                <ref bean="ArticleCatChecker" />
+			</list>
+   		</property>
+   		
+	</bean>
+
+
+	<!-- policy parser -->          		
+	<bean id="PolicyParser" class="com.gemantic.parser.impl.PolicyParser" init-method="init">
+		<property name="cleaner">
+    		<ref bean="HtmlCleaner" />
+   		</property>
+
+		<property name="titleReExtactor">
+    		<ref bean="ArticleTitleReExtractor" />
+   		</property>
+   		
+		<property name="extractors">
+			<list>
+				<ref bean="PolicyTitleExtractor" /> <!--  it must first ,update to policy-->
+                <ref bean="ArticleTimeExtractor" />
+                <ref bean="ArticleCatExtractor" />
+                <ref bean="ArticleSourceExtractor" />
+			</list>
+   		</property>
+   		
+		<property name="checkers">
+			<list>
+				<ref bean="ArticleTitleChecker" /> 
+                <ref bean="ArticleTimeChecker" />
+                <!--  <ref bean="ArticleContentChecker" />  not use content -->
+                <ref bean="ArticleCatChecker" />
+			</list>
+   		</property>
+   		
+	</bean>
+   
+	
+</beans>

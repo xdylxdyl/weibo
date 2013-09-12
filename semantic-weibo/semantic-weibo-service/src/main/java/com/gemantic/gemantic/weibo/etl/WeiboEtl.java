@@ -14,11 +14,12 @@ import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
 import com.gemantic.gemantic.weibo.model.CompanyEvent;
 import com.gemantic.gemantic.weibo.model.CompanyExtendevent;
+import com.gemantic.gemantic.weibo.model.CompanyExtendnews;
 import com.gemantic.gemantic.weibo.model.CompanyNews;
-import com.gemantic.gemantic.weibo.model.Event;
 import com.gemantic.gemantic.weibo.model.Weibo;
 import com.gemantic.gemantic.weibo.service.CompanyEventService;
 import com.gemantic.gemantic.weibo.service.CompanyExtendeventService;
+import com.gemantic.gemantic.weibo.service.CompanyExtendnewsService;
 import com.gemantic.gemantic.weibo.service.CompanyNewsService;
 import com.gemantic.gemantic.weibo.service.EventService;
 import com.gemantic.gemantic.weibo.service.WeiboMongoDBService;
@@ -38,6 +39,8 @@ public class WeiboEtl {
 	private CompanyEventService companyEventService;
 
 	private CompanyExtendeventService companyExtendeventService;
+	
+	private CompanyExtendnewsService companyExtendnewsService;
 
 	private CompanyNewsService companyNewsService;
 
@@ -70,10 +73,10 @@ public class WeiboEtl {
 			InterruptedException {
 		List<Weibo> weibos = getWeiBo();
 		if (CollectionUtils.isEmpty(weibos)) {
-			log.info("not get data sleep 5");
+			log.info("weibo not get data sleep 5");
 			Thread.sleep(5000);
 		} else {
-			log.info("get data is " + weibos.size());
+			log.info("weibo get data is " + weibos.size());
 			// 2.判断是否为原始微博
 			List<Weibo> processWeibos = new ArrayList();
 			for (Weibo weibo : weibos) {
@@ -109,7 +112,7 @@ public class WeiboEtl {
 				processWeibos.add(weibo);
 
 			}
-			log.info("will process weibos " + processWeibos.size());
+			log.info("weibo will process weibos " + processWeibos.size());
 			// 3.调用NLP模块
 
 			for (Weibo weibo : processWeibos) {
@@ -122,40 +125,48 @@ public class WeiboEtl {
 				MicroBlogDoc result = this.brandCompanyService
 						.getMicroBlogCategory(mbd);
 				if (result == null) {
-					log.info(weibo.getWid() + " not get any result ");
+					log.info(weibo.getWid() + " weibo not get any result ");
 					continue;
 				}else{
 					//log.info(weibo.getWid()+"get category "+result);
 				}
 
 				WeiboUtil.doc2Events(result, eventService);
-				log.info("process " + result);
+				log.info("weibo process " + result);
 
 				List<CompanyEvent> companyEvents = WeiboUtil
 						.doc2CompanyEvents(result);
 				this.companyEventService.insertList(companyEvents);
-				log.info(weibo.getWid() + " get company events "
+				log.info(weibo.getWid() + " weibo get company events "
 						+ companyEvents.size());
 
 				List<CompanyExtendevent> companyExtendevents = WeiboUtil
 						.doc2CompanyExtendEvents(result);
 				this.companyExtendeventService
 						.insertList(companyExtendevents);
-				log.info(weibo.getWid() + " get companyExtendevents  "
+				log.info(weibo.getWid() + " weibo get companyExtendevents  "
 						+ companyExtendevents.size());
 
 				List<CompanyNews> companyNews = WeiboUtil.doc2CompanyNews(
 						result, "weibo");
 				this.companyNewsService.insertList(companyNews);
-				log.info(weibo.getWid() + " get companyNews  "
+				log.info(weibo.getWid() + " weibo get companyNews  "
 						+ companyNews.size());
+				
+
+				List<CompanyExtendnews> companyExtendnews = WeiboUtil
+						.doc2CompanyExtendnews(result);
+				this.companyExtendnewsService
+						.insertList(companyExtendnews);
+				log.info(weibo.getWid() + " weibo get companyExtendnews  "
+						+ companyExtendnews.size());
 
 			}
 
-			log.info("start update status");
+			log.info("weibo start update status");
 			this.weiboService.updateList(weibos);
 
-			log.info("process over ");
+			log.info("weibo process over ");
 
 		}
 	}
@@ -231,5 +242,16 @@ public class WeiboEtl {
 	public void setBrandCompanyService(BrandCompanyService brandCompanyService) {
 		this.brandCompanyService = brandCompanyService;
 	}
+
+	public CompanyExtendnewsService getCompanyExtendnewsService() {
+		return companyExtendnewsService;
+	}
+
+	public void setCompanyExtendnewsService(
+			CompanyExtendnewsService companyExtendnewsService) {
+		this.companyExtendnewsService = companyExtendnewsService;
+	}
+	
+	
 
 }

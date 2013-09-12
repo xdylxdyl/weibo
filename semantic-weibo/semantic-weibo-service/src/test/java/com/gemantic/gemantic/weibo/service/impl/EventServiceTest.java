@@ -17,7 +17,7 @@ import com.gemantic.gemantic.weibo.service.EventService;
 
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
-//@Ignore
+
 public class EventServiceTest {
 
 	private static final Log log = LogFactory.getLog(EventServiceTest.class);
@@ -34,7 +34,7 @@ public class EventServiceTest {
 		// local server
 		
 		  eventService = (EventService)
-		  Naming.lookup("//10.0.0.20:8801/EventRMIService");
+		  Naming.lookup("//112.124.47.234:8801/EventRMIService");
 		
 
 		/**
@@ -152,7 +152,11 @@ public class EventServiceTest {
 	};
 	@Test
 	public void testList() throws ServiceException, ServiceDaoException{
-		List<Long> event=this.eventService.getAllEvent(0, 10);
-		log.info(event);
+		List<Long> events=this.eventService.getAllEvent(0, 10);
+		List<Event> results=this.eventService.getObjectsByIds(events);
+		log.info(results);
 	}
+	
+	
+	
 }

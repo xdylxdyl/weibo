@@ -17,25 +17,31 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
-@Table(name = "company_extendevent")
-public class CompanyExtendevent implements Serializable {
+@Table(name = "news")
+public class News implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3175696715535179776L;
+	private static final long serialVersionUID = 6216515543771316224L;
 
 	private Long id;
 
-	private String companyUri;
+	private String nid;
 
-	private String entityUri="";
+	private String title;
 
-	private Long eid;
+	private String link;
+
+	private int status;
+
+	private String author;
+
+	private Long publish_at;
 
 	private String source;
 
-	private Integer type;
+	private String content;
 
 	private Long updateAt;
 
@@ -52,34 +58,62 @@ public class CompanyExtendevent implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "company_uri")
-	public String getCompanyUri() {
-		return companyUri;
+	@Column(name = "nid")
+	public String getNid() {
+		return nid;
 	}
 
-	public void setCompanyUri(String companyUri) {
-		this.companyUri = companyUri;
+	public void setNid(String nid) {
+		this.nid = nid;
 	}
 
-	@Column(name = "entity_uri")
-	public String getEntityUri() {
-		return entityUri;
+	@Column(name = "title")
+	public String getTitle() {
+		return title;
 	}
 
-	public void setEntityUri(String entityUri) {
-		this.entityUri = entityUri;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	@Column(name = "eid")
-	public Long getEid() {
-		return eid;
+	@Column(name = "link")
+	public String getLink() {
+		return link;
 	}
 
-	public void setEid(Long eid) {
-		this.eid = eid;
+	public void setLink(String link) {
+		this.link = link;
 	}
 
-	@Column(name = "source")
+	@Column(name = "status")
+	public int getStatus() {
+		return status;
+
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@Transient
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	@Transient
+	public Long getPublish_at() {
+		return publish_at;
+	}
+
+	public void setPublish_at(Long publish_at) {
+		this.publish_at = publish_at;
+	}
+
+	@Transient
 	public String getSource() {
 		return source;
 	}
@@ -88,13 +122,13 @@ public class CompanyExtendevent implements Serializable {
 		this.source = source;
 	}
 
-	@Column(name = "type")
-	public Integer getType() {
-		return type;
+	@Transient
+	public String getContent() {
+		return content;
 	}
 
-	public void setType(Integer type) {
-		this.type = type;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	@Column(name = "update_at")

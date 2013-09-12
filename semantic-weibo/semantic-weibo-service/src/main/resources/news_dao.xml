@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dal>
+	<route>
+		<object name="com.gemantic.gemantic.weibo.model.News"
+			listenerClass="" strategyProperty="">
+			
+			
+			
+					<list name="getNewsIdsByStatus"
+				sqlitem="select id from news where status = ?"
+				keyProperty="status" valueProperty="id" keyColumn="status" />
+						
+			
+						
+			<dbStrategy name="mutiDS"
+                clasz="com.gemantic.dal.route.strategy.DefaultStrategy">  <pattern value="[0-9]$" group="gemanticWeibo" />
+            </dbStrategy>
+			
+		</object>
+	</route>
+</dal>

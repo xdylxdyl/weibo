@@ -25,7 +25,17 @@
 
 
 		<config>
+			<path>companyExtendnews_dao.xml</path>
+		</config>
+
+
+		<config>
 			<path>weibo_dao.xml</path>
+		</config>
+
+
+		<config>
+			<path>news_dao.xml</path>
 		</config>
 
 	</list>

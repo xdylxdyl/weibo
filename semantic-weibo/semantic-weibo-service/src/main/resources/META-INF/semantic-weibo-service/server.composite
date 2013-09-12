@@ -31,13 +31,22 @@
     <scallop:binding.rmi host="localhost" port="8801" serviceName="WeiboMongoDBRMIService"/>     
   </service>
   
+  	<service name="newsService" promote="GemanticWeiboComponent/newsService">
+    <interface.java interface="com.gemantic.gemantic.weibo.service.NewsService"/> 
+    <scallop:binding.rmi host="localhost" port="8801" serviceName="NewsRMIService"/>     
+  </service>
+  
+	  <service name="companyExtendnewsService" promote="GemanticWeiboComponent/companyExtendnewsService">
+    <interface.java interface="com.gemantic.gemantic.weibo.service.CompanyExtendnewsService"/> 
+    <scallop:binding.rmi host="localhost" port="8801" serviceName="CompanyExtendnewsRMIService"/>     
+  </service>
   
   <reference name="brandCompanyService" promote="GemanticWeiboComponent/brandCompanyService">
 		<interface.java interface="com.gemantic.brand.company.service.BrandCompanyService" />
 		<scallop:binding.rmi registryName="gemantic-brand-company-service-rmi" serviceName="BrandCompanyRMIService" />
 	</reference>
 	
-  
+
 	
 
 

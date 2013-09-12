@@ -8,7 +8,69 @@
 	</parent>
 	<artifactId>semantic-weibo-service</artifactId>
 	<dependencies>
+		<dependency>
+			<groupId>com.gemantic.workflow</groupId>
+			<artifactId>workflow-parser-core</artifactId>
+			<version>0.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-aop</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-webmvc</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.gemantic.workflow</groupId>
+			<artifactId>workflow-parser-lib</artifactId>
+			<version>1.15-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-aop</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-webmvc</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
 
+		</dependency>
 
 		<dependency>
 			<artifactId>semantic-weibo-core</artifactId>
@@ -322,8 +384,8 @@
 			<artifactId>brand-compnay-core</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -1028,12 +1090,17 @@
 
 		</dependency>
 
-		
 
 
 
 
 
+
+		<dependency>
+			<groupId>chardet</groupId>
+			<artifactId>chardet</artifactId>
+			<version>1.0</version>		
+		</dependency>
 	</dependencies>
 
 
