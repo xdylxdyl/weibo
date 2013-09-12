@@ -16,6 +16,7 @@ import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
 import com.gemantic.gemantic.weibo.model.CompanyEvent;
 import com.gemantic.gemantic.weibo.service.CompanyEventService;
+
 @Ignore
 public class CompanyEventServiceTest {
 
@@ -29,13 +30,15 @@ public class CompanyEventServiceTest {
 
 		// dao
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:applicationContext-server.xml");
+				"classpath:applicationContext*.xml");
 		companyEventService = (CompanyEventService) context
 				.getBean("companyEventService");
 		// local server
 
-		/*companyEventService = (CompanyEventService) Naming
-				.lookup("//localhost:8801/CompanyEventRMIService");*/
+		/*
+		 * companyEventService = (CompanyEventService) Naming
+		 * .lookup("//localhost:8801/CompanyEventRMIService");
+		 */
 
 		/**
 		 * test client ApplicationContext context = new
@@ -114,12 +117,48 @@ public class CompanyEventServiceTest {
 		Assert.assertEquals(2, getResults.size());
 
 		for (CompanyEvent o : insertResults) {
-			//this.companyEventService.delete(o.getId());
+			// this.companyEventService.delete(o.getId());
 		}
 
 		// 6.batchUpdate
 
 	}
+
+ @Test
+	public void getEidsByCompanyUri() throws ServiceException,
+			ServiceDaoException {
+		List<CompanyEvent> list = new ArrayList<CompanyEvent>();
+		CompanyEvent companyEvent1 = new CompanyEvent();
+
+		companyEvent1.setCompanyUri("xxxx");
+
+		companyEvent1.setEid(4L);
+
+		companyEvent1.setSource("weibo");
+
+		list.add(companyEvent1);
+		CompanyEvent companyEvent2 = new CompanyEvent();
+
+		companyEvent2.setCompanyUri("yyyy");
+
+		companyEvent2.setEid(3L);
+
+		companyEvent2.setSource("qq");
+
+		list.add(companyEvent2);
+		List<CompanyEvent> insertResults = this.companyEventService
+				.insertList(list);
+
+		List<Long> lists = companyEventService.getEidsByCompanyUri("xxxx", 0,
+				Integer.MAX_VALUE);
+		// TODO 增加自己的验证逻辑
+		Assert.assertNotNull(lists);
+
+		for (CompanyEvent o : insertResults) {
+			this.companyEventService.delete(o.getId());
+		}
+
+	};
 
 	@Test
 	public void testNULL() throws ServiceException, ServiceDaoException {

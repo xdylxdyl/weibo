@@ -140,7 +140,7 @@ public class WeiboUtil {
 			CompanyExtendnews cnews = new CompanyExtendnews();
 			cnews.setCompanyUri(relatedCompany.getCompany());
 			cnews.setEid(result.getGuid());
-			cnews.setEntityUri("");
+			cnews.setEntityUri(relatedCompany.getUri());
 			cnews.setSource(Event.Source_Weibo);
 			cnews.setType(relatedCompany.getType());
 		

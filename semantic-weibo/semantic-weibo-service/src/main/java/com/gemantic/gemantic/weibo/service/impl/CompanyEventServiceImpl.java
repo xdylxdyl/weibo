@@ -245,4 +245,50 @@ public class CompanyEventServiceImpl implements CompanyEventService {
 		return companyEvent;
 	}
 
+	/**
+	 * 
+	 * @param
+	 * @return
+	 * @throws ServiceException
+	 * @throws ServiceDaoException
+	 */
+	@Override
+	public List<Long> getEidsByCompanyUri(String companyUri, Integer start,
+			Integer limit) throws ServiceException, ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" get eids by companyUri,start,limit  : " + companyUri
+					+ " , " + start + " , " + limit);
+		}
+		List<Long> eidList = null;
+
+		// TODO 参数检查!
+
+		if (start == null) {
+			start = 0;
+		}
+
+		if (limit == null) {
+			limit = Integer.MAX_VALUE;
+		}
+
+		try {
+			eidList = dao.getIdList("getEidsByCompanyUri",
+					new Object[] { companyUri }, start, limit, false);
+
+		} catch (DaoException e) {
+			log.error(" get eids  wrong by companyUri,start,limit)  : "
+					+ companyUri + " , " + start + " , " + limit);
+			log.error(e);
+			e.printStackTrace();
+			throw new ServiceDaoException(e);
+		}
+		if (log.isInfoEnabled()) {
+			log.info(" get eids success : "
+					+ (eidList == null ? "null" : eidList.size()));
+		}
+		return eidList;
+
+	}
+
 }

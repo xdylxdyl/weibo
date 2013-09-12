@@ -17,7 +17,7 @@ import com.gemantic.gemantic.weibo.service.EventService;
 
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
-
+@Ignore
 public class EventServiceTest {
 
 	private static final Log log = LogFactory.getLog(EventServiceTest.class);
@@ -33,8 +33,8 @@ public class EventServiceTest {
 		eventService = (EventService) context.getBean("eventService");*/
 		// local server
 		
-		  eventService = (EventService)
-		  Naming.lookup("//112.124.47.234:8801/EventRMIService");
+	/*	  eventService = (EventService)
+		  Naming.lookup("//112.124.47.234:8801/EventRMIService");*/
 		
 
 		/**

@@ -142,7 +142,7 @@ public class NewsUtil {
 			CompanyExtendnews cnews = new CompanyExtendnews();
 			cnews.setCompanyUri(relatedCompany.getCompany());
 			cnews.setEid(result.getGuid());
-			cnews.setEntityUri("");
+			cnews.setEntityUri(relatedCompany.getUri());
 			cnews.setSource(Event.Source_News);
 			cnews.setType(relatedCompany.getType());
 		
