@@ -284,4 +284,43 @@ public class EventServiceImpl implements EventService {
 	
 	}
 
+	@Override
+	public List<Long> getEventLikeKeyword(String keyword, Integer start,
+			Integer limit) throws ServiceException, ServiceDaoException {
+		if (log.isInfoEnabled()) {
+			log.info(" get eids by keyword,start,limit  : " + keyword
+					+ " , " + start + " , " + limit);
+		}
+		List<Long> eidList = null;
+
+		// TODO 参数检查!
+
+		if (start == null) {
+			start = 0;
+		}
+
+		if (limit == null) {
+			limit = Integer.MAX_VALUE;
+		}
+
+		try {
+			eidList = dao.getIdList("getEventLikeKeyword",
+					new Object[] { keyword }, start, limit, false);
+
+		} catch (DaoException e) {
+			log.error(" get eids  wrong by getEventLikeKeyword,start,limit)  : "
+					+ keyword + " , " + start + " , " + limit);
+			log.error(e);
+			e.printStackTrace();
+			throw new ServiceDaoException(e);
+		}
+		if (log.isInfoEnabled()) {
+			log.info(" get eids success : "
+					+ (eidList == null ? "null" : eidList.size()));
+		}
+		return eidList;
+
+	}
+	
+
 }

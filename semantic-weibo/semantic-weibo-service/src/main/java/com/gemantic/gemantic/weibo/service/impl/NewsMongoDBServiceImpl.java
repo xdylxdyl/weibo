@@ -71,7 +71,7 @@ public class NewsMongoDBServiceImpl implements NewsMongoDBService {
 			log.warn("delete cant complete.not exist " + id);
 			return true;
 		} else {
-			collection.remove(new BasicDBObject().append("id", id));
+			collection.remove(new BasicDBObject().append("nid", id));
 			log.info(id+" remove  success");
 			return true;
 		}
@@ -90,7 +90,7 @@ public class NewsMongoDBServiceImpl implements NewsMongoDBService {
 
 			DBObject dbObject2 = (DBObject) JSON.parse(NewsUtil
 					.news2Json(news));
-			collection.update(new BasicDBObject().append("id", news.getId()),
+			collection.update(new BasicDBObject().append("nid", news.getId()),
 					dbObject2);
 			log.info(news+" update  success");
 			return true;
@@ -101,7 +101,7 @@ public class NewsMongoDBServiceImpl implements NewsMongoDBService {
 	@Override
 	public News get(String id) throws ServiceException, ServiceDaoException {
 		BasicDBObject query = new BasicDBObject();
-		query.put("id", id);
+		query.put("nid", id);
 		DBCursor cursor = collection.find(query);
 		if (cursor.hasNext()) {
 			log.info(id+" get  success");

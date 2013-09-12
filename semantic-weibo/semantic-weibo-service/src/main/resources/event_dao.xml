@@ -8,6 +8,10 @@
 
 			<list name="getEventAll" sqlitem="select id from event where 1 = 1 "
 				keyProperty="version" valueProperty="id" keyColumn="version" />
+				
+				
+			<list name="getEventLikeKeyword" sqlitem="select id from event where event_keyword like ?"
+				keyProperty="eventKeyword" valueProperty="id" keyColumn="event_keyword" />
 
 
 			<dbStrategy name="mutiDS"

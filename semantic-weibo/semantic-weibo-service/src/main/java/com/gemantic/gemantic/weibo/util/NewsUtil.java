@@ -68,6 +68,7 @@ public class NewsUtil {
 			cevent.setCompanyUri(rcompany.getCompany());
 			cevent.setEid(result.getDocCategory().getEvent().getId());
 			cevent.setSource(Event.Source_News);
+			cevent.setEntityUri(rcompany.getUri());
 		    cevent.setType(rcompany.getType());
 			cevents.add(cevent);
 

@@ -71,7 +71,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 			log.warn("delete cant complete.not exist " + id);
 			return true;
 		} else {
-			collection.remove(new BasicDBObject().append("id", id));
+			collection.remove(new BasicDBObject().append("wid", id));
 			log.info(id+" remove  success");
 			return true;
 		}
@@ -90,7 +90,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 
 			DBObject dbObject2 = (DBObject) JSON.parse(WeiboUtil
 					.weibo2Json(weibo));
-			collection.update(new BasicDBObject().append("id", weibo.getId()),
+			collection.update(new BasicDBObject().append("wid", weibo.getId()),
 					dbObject2);
 			log.info(weibo+" update  success");
 			return true;
@@ -101,7 +101,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 	@Override
 	public Weibo get(String id) throws ServiceException, ServiceDaoException {
 		BasicDBObject query = new BasicDBObject();
-		query.put("id", id);
+		query.put("wid", id);
 		DBCursor cursor = collection.find(query);
 		if (cursor.hasNext()) {
 			log.info(id+" get  success");

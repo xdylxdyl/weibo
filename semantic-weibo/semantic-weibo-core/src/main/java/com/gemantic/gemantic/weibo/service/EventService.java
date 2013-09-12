@@ -48,6 +48,9 @@ public interface EventService {
 		
 		public List<Long> getAllEvent(Integer start, Integer limit)throws ServiceException, ServiceDaoException;
 		
+		
+		public List<Long> getEventLikeKeyword(String keyword,Integer start,Integer limit)throws ServiceException, ServiceDaoException;
+		
 		  
     	
 	

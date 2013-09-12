@@ -34,7 +34,7 @@ public class MongoDBTest {
 
 		// dao
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:META-INF/semantic-weibo-service/applicationContext-server.xml");
+				"classpath:applicationContext*.xml");
 		weiboMongoDBService = (WeiboMongoDBService) context
 				.getBean("weiboMongoDBService");
 		// local server

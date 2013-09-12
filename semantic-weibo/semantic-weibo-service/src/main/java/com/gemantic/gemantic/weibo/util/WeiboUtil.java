@@ -65,6 +65,7 @@ public class WeiboUtil {
 			cevent.setCompanyUri(rcompany.getCompany());
 			cevent.setEid(result.getDocCategory().getEvent().getId());
 			cevent.setSource(Event.Source_Weibo);
+			cevent.setEntityUri(rcompany.getUri());
 		    cevent.setType(rcompany.getType());
 			cevents.add(cevent);
 
@@ -85,6 +86,7 @@ public class WeiboUtil {
 			cevent.setSource(Event.Source_Weibo);
 			cevent.setCount(result.getCount());
 			cevent.setNid(result.getGuid());
+			
 		
 			cevents.add(cevent);
 			log.info(result.getGuid()+" has company news "+companyUri);

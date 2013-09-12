@@ -28,13 +28,13 @@ public class EventServiceTest {
 	public void setUp() throws Exception {
 
 		// dao
-		/*ApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:applicationContext-server.xml");
-		eventService = (EventService) context.getBean("eventService");*/
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"classpath:applicationContext*");
+		//eventService = (EventService) context.getBean("eventService");
 		// local server
 		
-	/*	  eventService = (EventService)
-		  Naming.lookup("//112.124.47.234:8801/EventRMIService");*/
+		  eventService = (EventService)
+		  Naming.lookup("//112.124.47.234:8801/EventRMIService");
 		
 
 		/**
@@ -157,6 +157,11 @@ public class EventServiceTest {
 		log.info(results);
 	}
 	
-	
+	@Test
+	public void testLike() throws ServiceException, ServiceDaoException{
+		List<Long> events=this.eventService.getEventLikeKeyword("证券",0, 10);
+		List<Event> results=this.eventService.getObjectsByIds(events);
+		log.info(results);
+	}
 	
 }
