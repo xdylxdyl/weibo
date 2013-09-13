@@ -1,8 +1,10 @@
 package com.gemantic.gemantic.weibo.service.impl;
 
+import java.net.URISyntaxException;
 import java.rmi.Naming;
 import java.util.List;
 
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
@@ -128,7 +130,7 @@ public class NewsETLTest {
 	}
 
 	@Test
-	public void testHtmlParse() {
+	public void testHtmlParse() throws URIException, URISyntaxException {
 
 		String link = "http://news.hexun.com/2013-09-09/157857509.html";
 		log.info(link);

@@ -101,7 +101,7 @@ public class NewsMongoDBServiceImpl implements NewsMongoDBService {
 	@Override
 	public News get(String id) throws ServiceException, ServiceDaoException {
 		BasicDBObject query = new BasicDBObject();
-		query.put("nid", id);
+		query.put("ncid", id);
 		DBCursor cursor = collection.find(query);
 		if (cursor.hasNext()) {
 			log.info(id+" get  success");

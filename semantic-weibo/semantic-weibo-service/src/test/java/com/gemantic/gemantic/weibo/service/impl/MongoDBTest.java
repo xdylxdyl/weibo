@@ -23,7 +23,7 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.util.JSON;
 
-@Ignore
+//@Ignore
 public class MongoDBTest {
 	private static final Log log = LogFactory.getLog(MongoDBTest.class);
 
@@ -55,7 +55,7 @@ public class MongoDBTest {
 	@Test
 	public void testCRUD() throws ServiceException, ServiceDaoException {
 		Weibo weibo = new Weibo();		
-		weibo.setWid("xdylxdylxdylxdyl");
+		weibo.setWid("2xdylxdylxdylxdyl");
 		weibo.setContent("12306事件");
 
 		weibo.setCommentCount(222);

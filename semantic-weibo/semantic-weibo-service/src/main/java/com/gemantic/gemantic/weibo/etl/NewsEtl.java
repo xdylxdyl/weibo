@@ -1,9 +1,11 @@
 package com.gemantic.gemantic.weibo.etl;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
@@ -45,7 +47,7 @@ public class NewsEtl {
 	private CompanyEventService companyEventService;
 
 	private CompanyExtendeventService companyExtendeventService;
-	
+
 	private CompanyExtendnewsService companyExtendnewsService;
 
 	private CompanyNewsService companyNewsService;
@@ -78,7 +80,7 @@ public class NewsEtl {
 	}
 
 	private void processNews() throws ServiceException, ServiceDaoException,
-			InterruptedException {
+			InterruptedException, URIException, URISyntaxException {
 		List<News> newss = getWeiBo();
 		if (CollectionUtils.isEmpty(newss)) {
 			log.info("news not get data sleep 5");
@@ -95,10 +97,10 @@ public class NewsEtl {
 				tc.setUrl(news.getLink());
 				tc.setAnchor(news.getLink());
 				tc.setFetchTime(news.getCreateAt());
-				Article article = newsParser.parseContent(tc);
+				Article article = this.parseContent(tc);
 
 				if (article != null) {
-					
+
 					news.setAuthor(article.getAuthor());
 					news.setPublish_at(article.getTimeLong());
 					news.setSource(article.getSource());
@@ -148,13 +150,11 @@ public class NewsEtl {
 				this.companyNewsService.insertList(companyNews);
 				log.info(news.getLink() + " news  get companyNews  "
 						+ companyNews.size() + " md5 is " + news.getNid());
-				
 
 				List<CompanyExtendnews> companyExtendnews = NewsUtil
 						.doc2CompanyExtendnews(result);
-				this.companyExtendnewsService
-						.insertList(companyExtendnews);
-				
+				this.companyExtendnewsService.insertList(companyExtendnews);
+
 				log.info(news.getLink() + " news  get companyExtendnews  "
 						+ companyExtendnews.size());
 
@@ -170,6 +170,16 @@ public class NewsEtl {
 
 			log.info("news  process over ");
 
+		}
+	}
+
+	private Article parseContent(HtmlContent tc) {
+		try {
+			return newsParser.parseContent(tc);
+		} catch (Throwable t) {
+			t.printStackTrace();
+			log.error(tc + " parse error ");
+			return null;
 		}
 	}
 
@@ -195,10 +205,6 @@ public class NewsEtl {
 	public void setNewsService(NewsService newsService) {
 		this.newsService = newsService;
 	}
-	
-	
-
-
 
 	public NewsMongoDBService getNewsMongoDBService() {
 		return newsMongoDBService;
@@ -248,19 +254,6 @@ public class NewsEtl {
 	public void setBrandCompanyService(BrandCompanyService brandCompanyService) {
 		this.brandCompanyService = brandCompanyService;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-
-
 
 	public CompanyExtendnewsService getCompanyExtendnewsService() {
 		return companyExtendnewsService;
@@ -280,15 +273,15 @@ public class NewsEtl {
 	}
 
 	public static void main(String[] args) throws IOException {
-		
-		List<String> keywords=FileUtil.readFileAsList("d:/data/keywords.txt");
-		int i=0;
-		for(String keyword:keywords){
+
+		List<String> keywords = FileUtil.readFileAsList("d:/data/keywords.txt");
+		int i = 0;
+		for (String keyword : keywords) {
 			i++;
-			String sql="INSERT INTO `search_word` VALUES ('"+i+"', '"+keyword+"', '1364309002676', '1364309002676');";
+			String sql = "INSERT INTO `search_word` VALUES ('" + i + "', '"
+					+ keyword + "', '1364309002676', '1364309002676');";
 			FileUtil.writeFile("d:/data/keywords.sql", true, sql);
 		}
-				
-		
+
 	}
 }
