@@ -25,8 +25,6 @@ public class CompanyEvent implements Serializable {
 	 */
 	private static final long serialVersionUID = 4821914498404907008L;
 
-	
-
 	private Long id;
 
 	private String companyUri;
@@ -35,9 +33,22 @@ public class CompanyEvent implements Serializable {
 
 	private String source;
 
+	
+
 	private Long updateAt;
 
 	private Long createAt;
+	
+	private Long publishAt;
+	
+	@Column(name = "publish_at")
+	public Long getPublishAt() {
+		return publishAt;
+	}
+
+	public void setPublishAt(Long publishAt) {
+		this.publishAt = publishAt;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -76,6 +87,8 @@ public class CompanyEvent implements Serializable {
 	public void setSource(String source) {
 		this.source = source;
 	}
+
+
 
 	@Column(name = "update_at")
 	public Long getUpdateAt() {

@@ -50,6 +50,7 @@ public class NewsUtil {
 			cevent.setCompanyUri(companyUri);
 			cevent.setEid(result.getDocCategory().getEvent().getId());
 			cevent.setSource(Event.Source_News);
+			cevent.setPublishAt(result.getDate());
 			cevents.add(cevent);
 
 		}
@@ -70,6 +71,7 @@ public class NewsUtil {
 			cevent.setSource(Event.Source_News);
 			cevent.setEntityUri(rcompany.getUri());
 		    cevent.setType(rcompany.getType());
+		    cevent.setPublishAt(result.getDate());
 			cevents.add(cevent);
 
 		}
@@ -89,6 +91,7 @@ public class NewsUtil {
 			cevent.setSource(Event.Source_News);
 			cevent.setCount(1);
 			cevent.setNid(result.getGuid());
+			cevent.setPublishAt(result.getDate());
 		
 			cevents.add(cevent);
 
@@ -146,6 +149,7 @@ public class NewsUtil {
 			cnews.setEntityUri(relatedCompany.getUri());
 			cnews.setSource(Event.Source_News);
 			cnews.setType(relatedCompany.getType());
+			cnews.setPublishAt(result.getDate());
 		
 			cevents.add(cnews);
 			log.info(result.getGuid()+" has company news "+relatedCompany);

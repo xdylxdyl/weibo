@@ -36,6 +36,17 @@ public class CompanyExtendnews implements Serializable {
 	private Long updateAt;
 
 	private Long createAt;
+	
+	private Long publishAt;
+	
+	@Column(name = "publish_at")
+	public Long getPublishAt() {
+		return publishAt;
+	}
+
+	public void setPublishAt(Long publishAt) {
+		this.publishAt = publishAt;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

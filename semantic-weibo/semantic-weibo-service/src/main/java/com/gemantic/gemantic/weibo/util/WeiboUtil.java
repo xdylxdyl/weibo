@@ -47,6 +47,7 @@ public class WeiboUtil {
 			cevent.setCompanyUri(companyUri);
 			cevent.setEid(result.getDocCategory().getEvent().getId());
 			cevent.setSource(Event.Source_Weibo);
+			cevent.setPublishAt(result.getDate());
 			cevents.add(cevent);
 
 		}
@@ -67,6 +68,7 @@ public class WeiboUtil {
 			cevent.setSource(Event.Source_Weibo);
 			cevent.setEntityUri(rcompany.getUri());
 		    cevent.setType(rcompany.getType());
+		    cevent.setPublishAt(result.getDate());
 			cevents.add(cevent);
 
 		}
@@ -85,6 +87,7 @@ public class WeiboUtil {
 			cevent.setAnalyse(result.getDocCategory().getEmotion());
 			cevent.setSource(Event.Source_Weibo);
 			cevent.setCount(result.getCount());
+			cevent.setPublishAt(result.getDate());
 			cevent.setNid(result.getGuid());
 			
 		
@@ -145,6 +148,7 @@ public class WeiboUtil {
 			cnews.setEntityUri(relatedCompany.getUri());
 			cnews.setSource(Event.Source_Weibo);
 			cnews.setType(relatedCompany.getType());
+			cnews.setPublishAt(result.getDate());
 		
 			cevents.add(cnews);
 			log.info(result.getGuid()+" has company news "+relatedCompany);
