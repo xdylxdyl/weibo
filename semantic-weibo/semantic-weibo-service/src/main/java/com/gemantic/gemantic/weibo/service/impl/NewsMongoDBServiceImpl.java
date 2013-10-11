@@ -57,7 +57,7 @@ public class NewsMongoDBServiceImpl implements NewsMongoDBService {
 			log.info(news+" insert  success");
 			return true;
 		} else {
-			log.error("already exist " + news);
+			log.warn("already exist " + news);
 			return false;
 		}
 
@@ -90,7 +90,7 @@ public class NewsMongoDBServiceImpl implements NewsMongoDBService {
 
 			DBObject dbObject2 = (DBObject) JSON.parse(NewsUtil
 					.news2Json(news));
-			collection.update(new BasicDBObject().append("nid", news.getId()),
+			collection.update(new BasicDBObject().append("nid", news.getNid()),
 					dbObject2);
 			log.info(news+" update  success");
 			return true;
@@ -101,7 +101,7 @@ public class NewsMongoDBServiceImpl implements NewsMongoDBService {
 	@Override
 	public News get(String id) throws ServiceException, ServiceDaoException {
 		BasicDBObject query = new BasicDBObject();
-		query.put("ncid", id);
+		query.put("nid", id);
 		DBCursor cursor = collection.find(query);
 		if (cursor.hasNext()) {
 			log.info(id+" get  success");

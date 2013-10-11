@@ -14,7 +14,7 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				 <ref bean="weiboTrigger" /> 
+				<ref bean="weiboTrigger" />
 				<ref bean="newsTrigger" /> 
 			</list>
 		</property>

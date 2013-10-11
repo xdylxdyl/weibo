@@ -121,6 +121,7 @@ public class NewsEtl {
 				newsDoc.setGuid(news.getNid());
 				NewsDoc result = this.brandCompanyService
 						.getNewsCategory(newsDoc);
+			
 				if (result == null) {
 					log.info(news.getLink() + " news  not get any result "
 							+ news.getNid());
@@ -128,6 +129,11 @@ public class NewsEtl {
 				} else {
 					// log.info(news.getWid()+"get category "+result);
 				}
+				List<String> keywords=NewsUtil.doc2Keywords(result);
+				news.setKeywords(keywords);			
+				this.newsMongoDBService.update(news);
+				log.info("news update keywords " + news.getKeywords());
+				
 
 				NewsUtil.doc2Events(result, eventService);
 				log.info("news  process " + result);

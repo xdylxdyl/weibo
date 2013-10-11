@@ -157,4 +157,11 @@ public class WeiboUtil {
 		return cevents;
 	}
 
+	public static List<String> doc2Keywords(MicroBlogDoc result) {
+		if(result==null||result.getDocCategory()==null||result.getDocCategory().getCharacters()==null){
+			return new ArrayList();
+		}
+		return result.getDocCategory().getCharacters();
+	}
+
 }

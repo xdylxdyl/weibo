@@ -130,7 +130,13 @@ public class WeiboEtl {
 				}else{
 					//log.info(weibo.getWid()+"get category "+result);
 				}
-
+				
+				
+				List<String> keywords=WeiboUtil.doc2Keywords(result);
+				weibo.setKeywords(keywords);
+				this.weiboMongoDBService.update(weibo);
+				log.info("weibo update keywords " + weibo.getKeywords());
+				
 				WeiboUtil.doc2Events(result, eventService);
 				log.info("weibo process " + result);
 

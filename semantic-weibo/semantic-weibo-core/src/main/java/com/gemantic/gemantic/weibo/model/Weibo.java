@@ -46,6 +46,8 @@ public class Weibo implements Serializable {
 	private int status;
 
 	private String forwardID;
+	
+	private List<String> keywords;
 
 	private Long updateAt;
 
@@ -168,6 +170,17 @@ public class Weibo implements Serializable {
 
 	public void setCreateAt(Long createAt) {
 		this.createAt = createAt;
+	}
+	
+	
+	
+    @Transient
+	public List<String> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
 	}
 
 	public String toString() {

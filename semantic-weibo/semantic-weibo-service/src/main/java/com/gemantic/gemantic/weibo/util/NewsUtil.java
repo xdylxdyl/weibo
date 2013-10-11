@@ -80,7 +80,7 @@ public class NewsUtil {
 
 	public static List<CompanyNews> doc2CompanyNews(NewsDoc result,
 			String string) {
-		if(result==null||result.getDocCategory()==null||result.getDocCategory().getEvent()==null){
+		if(result==null||result.getDocCategory()==null){
 			return new ArrayList();
 		}
 		List<CompanyNews> cevents = new ArrayList();
@@ -156,6 +156,13 @@ public class NewsUtil {
 
 		}
 		return cevents;
+	}
+	
+	public static List<String> doc2Keywords(NewsDoc result) {
+		if(result==null||result.getDocCategory()==null||result.getDocCategory().getCharacters()==null){
+			return new ArrayList();
+		}
+		return result.getDocCategory().getCharacters();
 	}
 
 }

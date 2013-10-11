@@ -42,10 +42,23 @@ public class News implements Serializable {
 	private String source;
 
 	private String content;
+	
+	private List<String> keywords;
 
 	private Long updateAt;
 
 	private Long createAt;
+	
+	
+    @Transient
+	public List<String> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
+	}
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

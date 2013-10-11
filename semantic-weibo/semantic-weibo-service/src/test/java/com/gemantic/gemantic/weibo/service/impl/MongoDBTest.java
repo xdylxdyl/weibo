@@ -113,7 +113,7 @@ public class MongoDBTest {
 		  ; DBObject dbObject =(DBObject)JSON.parse(json);
 		  collection.insert(dbObject);
 		 
-		String json2 = "{'id':4,'database' : 'mkyongDB','tableupdate' : 'xdylxdyl','detail' : {'records' : 99, 'index' : 'vps_index1', 'active' : 'true'}}}";
+		String json2 = "{'id':4,'wid':'xxxxxxx','database' : 'mkyongDB','tableupdate' : 'xdylxdyl','detail' : {'records' : 99, 'index' : 'vps_index1', 'active' : 'true'}}}";
 		String json3 = "{'tableupdate':'xdylxdyl'}";
 		DBObject dbObject2 = (DBObject) JSON.parse(json2);
 		collection.update(new BasicDBObject().append("id", 4), dbObject2);

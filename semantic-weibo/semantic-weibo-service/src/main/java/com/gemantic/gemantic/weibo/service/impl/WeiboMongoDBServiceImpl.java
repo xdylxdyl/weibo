@@ -57,7 +57,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 			log.info(weibo+" insert  success");
 			return true;
 		} else {
-			log.error("already exist " + weibo);
+			log.warn("already exist " + weibo);
 			return false;
 		}
 
@@ -90,7 +90,7 @@ public class WeiboMongoDBServiceImpl implements WeiboMongoDBService {
 
 			DBObject dbObject2 = (DBObject) JSON.parse(WeiboUtil
 					.weibo2Json(weibo));
-			collection.update(new BasicDBObject().append("wid", weibo.getId()),
+			collection.update(new BasicDBObject().append("wid", weibo.getWid()),
 					dbObject2);
 			log.info(weibo+" update  success");
 			return true;
