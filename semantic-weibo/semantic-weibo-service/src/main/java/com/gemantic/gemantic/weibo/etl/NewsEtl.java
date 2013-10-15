@@ -71,7 +71,7 @@ public class NewsEtl {
 				processNews();
 			} catch (Throwable t) {
 				t.printStackTrace();
-				log.error("process error ,sleep 5 min");
+				log.error("process error ,sleep 5 min " + t.getMessage());
 				Thread.sleep(5 * 60 * 1000L);
 			}
 
@@ -90,86 +90,91 @@ public class NewsEtl {
 			// 2.判断是否为原始微博
 			List<News> processNewss = new ArrayList();
 			for (News news : newss) {
+				String pageContent;
+				try {
+					pageContent = HttpClientUtil.get(news.getLink());
 
-				String pageContent = HttpClientUtil.get(news.getLink());
-				HtmlContent tc = new HtmlContent();
-				tc.setContent(pageContent);
-				tc.setUrl(news.getLink());
-				tc.setAnchor(news.getLink());
-				tc.setFetchTime(news.getCreateAt());
-				Article article = this.parseContent(tc);
+					HtmlContent tc = new HtmlContent();
+					tc.setContent(pageContent);
+					tc.setUrl(news.getLink());
+					tc.setAnchor(news.getLink());
+					tc.setFetchTime(news.getCreateAt());
+					Article article = this.parseContent(tc);
 
-				if (article != null) {
+					if (article != null) {
 
-					news.setAuthor(article.getAuthor());
-					news.setPublish_at(article.getTimeLong());
-					news.setSource(article.getSource());
-					news.setTitle(article.getHtmlTitle());
-					news.setStatus(1);
-					news.setContent(article.getContent());
-				}
-				// 原创
-				// 2.1 插入MongoDB
-				this.newsMongoDBService.insert(news);
+						news.setAuthor(article.getAuthor());
+						news.setPublish_at(article.getTimeLong());
+						news.setSource(article.getSource());
+						news.setTitle(article.getHtmlTitle());
+						news.setStatus(1);
+						news.setContent(article.getContent());
+					}
+					// 原创
+					// 2.1 插入MongoDB
+					this.newsMongoDBService.insert(news);
 
-				NewsDoc newsDoc = new NewsDoc();
-				newsDoc.setAuther(news.getAuthor());
-				newsDoc.setDate(news.getPublish_at());
-				newsDoc.setSource(news.getSource());
-				newsDoc.setText(news.getContent());
-				newsDoc.setTitle(news.getTitle());
-				newsDoc.setGuid(news.getNid());
-				NewsDoc result = this.brandCompanyService
-						.getNewsCategory(newsDoc);
-			
-				if (result == null) {
-					log.info(news.getLink() + " news  not get any result "
+					NewsDoc newsDoc = new NewsDoc();
+					newsDoc.setAuther(news.getAuthor());
+					newsDoc.setDate(news.getPublish_at());
+					newsDoc.setSource(news.getSource());
+					newsDoc.setText(news.getContent());
+					newsDoc.setTitle(news.getTitle());
+					newsDoc.setGuid(news.getNid());
+					NewsDoc result = this.brandCompanyService
+							.getNewsCategory(newsDoc);
+
+					if (result == null) {
+						log.info(news.getLink() + " news  not get any result "
+								+ news.getNid());
+						continue;
+					} else {
+						// log.info(news.getWid()+"get category "+result);
+					}
+					List<String> keywords = NewsUtil.doc2Keywords(result);
+					news.setKeywords(keywords);
+					this.newsMongoDBService.update(news);
+					log.info("news update keywords " + news.getKeywords());
+
+					NewsUtil.doc2Events(result, eventService);
+					log.info("news  process " + result);
+
+					List<CompanyEvent> companyEvents = NewsUtil
+							.doc2CompanyEvents(result);
+					this.companyEventService.insertList(companyEvents);
+					log.info(news.getLink() + " news  get company events "
+							+ companyEvents.size() + " md5 is " + news.getNid());
+
+					List<CompanyExtendevent> companyExtendevents = NewsUtil
+							.doc2CompanyExtendEvents(result);
+					this.companyExtendeventService
+							.insertList(companyExtendevents);
+					log.info(news.getLink()
+							+ " news  get companyExtendevents  "
+							+ companyExtendevents.size() + " md5 is "
 							+ news.getNid());
+
+					List<CompanyNews> companyNews = NewsUtil.doc2CompanyNews(
+							result, "news");
+					this.companyNewsService.insertList(companyNews);
+					log.info(news.getLink() + " news  get companyNews  "
+							+ companyNews.size() + " md5 is " + news.getNid());
+
+					List<CompanyExtendnews> companyExtendnews = NewsUtil
+							.doc2CompanyExtendnews(result);
+					this.companyExtendnewsService.insertList(companyExtendnews);
+
+					log.info(news.getLink() + " news  get companyExtendnews  "
+							+ companyExtendnews.size());
+				} catch (Throwable t) {
+					t.printStackTrace();
+					log.error(news.getLink() + " process error ,skip "+t.getMessage());
 					continue;
-				} else {
-					// log.info(news.getWid()+"get category "+result);
 				}
-				List<String> keywords=NewsUtil.doc2Keywords(result);
-				news.setKeywords(keywords);			
-				this.newsMongoDBService.update(news);
-				log.info("news update keywords " + news.getKeywords());
-				
-
-				NewsUtil.doc2Events(result, eventService);
-				log.info("news  process " + result);
-
-				List<CompanyEvent> companyEvents = NewsUtil
-						.doc2CompanyEvents(result);
-				this.companyEventService.insertList(companyEvents);
-				log.info(news.getLink() + " news  get company events "
-						+ companyEvents.size() + " md5 is " + news.getNid());
-
-				List<CompanyExtendevent> companyExtendevents = NewsUtil
-						.doc2CompanyExtendEvents(result);
-				this.companyExtendeventService.insertList(companyExtendevents);
-				log.info(news.getLink() + " news  get companyExtendevents  "
-						+ companyExtendevents.size() + " md5 is "
-						+ news.getNid());
-
-				List<CompanyNews> companyNews = NewsUtil.doc2CompanyNews(
-						result, "news");
-				this.companyNewsService.insertList(companyNews);
-				log.info(news.getLink() + " news  get companyNews  "
-						+ companyNews.size() + " md5 is " + news.getNid());
-
-				List<CompanyExtendnews> companyExtendnews = NewsUtil
-						.doc2CompanyExtendnews(result);
-				this.companyExtendnewsService.insertList(companyExtendnews);
-
-				log.info(news.getLink() + " news  get companyExtendnews  "
-						+ companyExtendnews.size());
 
 			}
 			log.info("news  will process newss " + processNewss.size());
 			// 3.调用NLP模块
-
-			for (News news : processNewss) {
-			}
 
 			log.info("news  start update status");
 			this.newsService.updateList(newss);
