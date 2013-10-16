@@ -25,7 +25,7 @@ public class HttpClientUtil {
 
 		// Create an instance of HttpClient.
 		HttpClient client = new HttpClient();
-
+		client.getParams().setIntParameter("http.socket.timeout",3000); 
 		// Create a method instance.
 		GetMethod method = new GetMethod();
 		URI uri=new URI(url.toString(), false, "UTF-8");

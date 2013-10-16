@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class NewsUtil {
+	
 	private static final Log log = LogFactory.getLog(NewsUtil.class);
 	private static final String Split = " ";
 
@@ -49,12 +50,21 @@ public class NewsUtil {
 			CompanyEvent cevent = new CompanyEvent();
 			cevent.setCompanyUri(companyUri);
 			cevent.setEid(result.getDocCategory().getEvent().getId());
-			cevent.setSource(Event.Source_News);
+			cevent.setSource(NewsUtil.getSource(result.getSource()));
 			cevent.setPublishAt(result.getDate());
 			cevents.add(cevent);
 
 		}
 		return cevents;
+	}
+
+	private static String getSource(String source) {
+		if(source.contains("guba.eastmoney.com")){
+			return Event.Source_Forum;
+		}else{
+			return Event.Source_News;
+		}
+	
 	}
 
 	public static List<CompanyExtendevent> doc2CompanyExtendEvents(
@@ -68,7 +78,7 @@ public class NewsUtil {
 			CompanyExtendevent cevent = new CompanyExtendevent();
 			cevent.setCompanyUri(rcompany.getCompany());
 			cevent.setEid(result.getDocCategory().getEvent().getId());
-			cevent.setSource(Event.Source_News);
+			cevent.setSource(NewsUtil.getSource(result.getSource()));
 			cevent.setEntityUri(rcompany.getUri());
 		    cevent.setType(rcompany.getType());
 		    cevent.setPublishAt(result.getDate());
@@ -88,7 +98,7 @@ public class NewsUtil {
 			CompanyNews cevent = new CompanyNews();
 			cevent.setCompanyUri(companyUri);
 			cevent.setAnalyse(result.getDocCategory().getEmotion());
-			cevent.setSource(Event.Source_News);
+			cevent.setSource(NewsUtil.getSource(result.getSource()));
 			cevent.setCount(1);
 			cevent.setNid(result.getGuid());
 			cevent.setPublishAt(result.getDate());
@@ -111,7 +121,7 @@ public class NewsUtil {
 
 		event.setEventKeyword(e.getKeywords().toString());
 
-		event.setSource(Event.Source_News);
+		event.setSource(NewsUtil.getSource(result.getSource()));
 		event.setStart_at(e.getStart());
 		event.setSummary(e.getSummary());
 		event.setTitle(NewsUtil.listToString(e.getKeywords()));
@@ -147,7 +157,7 @@ public class NewsUtil {
 			cnews.setCompanyUri(relatedCompany.getCompany());
 			cnews.setEid(result.getGuid());
 			cnews.setEntityUri(relatedCompany.getUri());
-			cnews.setSource(Event.Source_News);
+			cnews.setSource(NewsUtil.getSource(result.getSource()));
 			cnews.setType(relatedCompany.getType());
 			cnews.setPublishAt(result.getDate());
 		

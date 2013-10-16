@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.httpclient.URIException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
@@ -90,9 +91,17 @@ public class NewsEtl {
 			// 2.判断是否为原始微博
 			List<News> processNewss = new ArrayList();
 			for (News news : newss) {
+				log.info(news.getNid()+"start process "+news.getLink());
+				news.setStatus(1);
+				if(StringUtils.isBlank(news.getLink())){
+					continue;
+				}
 				String pageContent;
 				try {
 					pageContent = HttpClientUtil.get(news.getLink());
+					if(StringUtils.isBlank(pageContent)){
+						continue;
+					}
 
 					HtmlContent tc = new HtmlContent();
 					tc.setContent(pageContent);
@@ -106,8 +115,7 @@ public class NewsEtl {
 						news.setAuthor(article.getAuthor());
 						news.setPublish_at(article.getTimeLong());
 						news.setSource(article.getSource());
-						news.setTitle(article.getHtmlTitle());
-						news.setStatus(1);
+						news.setTitle(article.getHtmlTitle());						
 						news.setContent(article.getContent());
 					}
 					// 原创
@@ -117,7 +125,7 @@ public class NewsEtl {
 					NewsDoc newsDoc = new NewsDoc();
 					newsDoc.setAuther(news.getAuthor());
 					newsDoc.setDate(news.getPublish_at());
-					newsDoc.setSource(news.getSource());
+					newsDoc.setSource(news.getLink());
 					newsDoc.setText(news.getContent());
 					newsDoc.setTitle(news.getTitle());
 					newsDoc.setGuid(news.getNid());
@@ -168,7 +176,7 @@ public class NewsEtl {
 							+ companyExtendnews.size());
 				} catch (Throwable t) {
 					t.printStackTrace();
-					log.error(news.getLink() + " process error ,skip "+t.getMessage());
+					log.error(news.getLink() +" , id is "+news.getNid()+ " process error ,skip "+t.getMessage());
 					continue;
 				}
 

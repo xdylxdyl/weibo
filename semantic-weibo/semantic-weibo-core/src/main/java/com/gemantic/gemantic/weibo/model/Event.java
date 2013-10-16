@@ -26,6 +26,7 @@ public class Event implements Serializable{
 	
 	public static final String Source_Weibo = "weibo";
 	public static final String Source_News = "news";
+	public static final String Source_Forum = "forum";
 		
    	 
     private  Long id;
