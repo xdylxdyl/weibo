@@ -9,26 +9,22 @@ import org.osoa.sca.annotations.Remotable;
 import com.gemantic.gemantic.weibo.model.CompanyNews;
 import com.gemantic.gemantic.weibo.service.CompanyNewsService;
 
-
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
 import com.gemantic.dal.dao.Dao;
 import com.gemantic.dal.dao.exception.DaoException;
 
-
-
 public class CompanyNewsServiceImpl implements CompanyNewsService {
 
-    private Dao dao;
+	private Dao dao;
 
-	private static final Log log = LogFactory.getLog(CompanyNewsServiceImpl.class);
+	private static final Log log = LogFactory
+			.getLog(CompanyNewsServiceImpl.class);
 
 	public Dao getDao() {
 		return dao;
@@ -38,15 +34,13 @@ public class CompanyNewsServiceImpl implements CompanyNewsService {
 		this.dao = dao;
 	}
 
+	@Override
+	public Long insert(CompanyNews companyNews) throws ServiceException,
+			ServiceDaoException {
 
-		   
-		@Override
-		public Long insert(CompanyNews companyNews)throws ServiceException, ServiceDaoException{
-		
-	
-		           if(log.isInfoEnabled()){	
-    log.info(" insert data : " + companyNews);
- }
+		if (log.isInfoEnabled()) {
+			log.info(" insert data : " + companyNews);
+		}
 		if (companyNews == null) {
 			return null;
 		}
@@ -64,20 +58,21 @@ public class CompanyNewsServiceImpl implements CompanyNewsService {
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-      if(log.isInfoEnabled()){
-		log.info(" insert data success : " + result);
-      }
-return result;	
-		}	
-		  
-    	   
-		@Override
-		public List<CompanyNews> insertList(List<CompanyNews> companyNewsList)throws ServiceException, ServiceDaoException{
-		
-	
-		          	 if(log.isInfoEnabled()){
-        log.info(" insert lists : " + (companyNewsList == null ? "null" : companyNewsList.size()));
-      }
+		if (log.isInfoEnabled()) {
+			log.info(" insert data success : " + result);
+		}
+		return result;
+	}
+
+	@Override
+	public List<CompanyNews> insertList(List<CompanyNews> companyNewsList)
+			throws ServiceException, ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" insert lists : "
+					+ (companyNewsList == null ? "null" : companyNewsList
+							.size()));
+		}
 		List<CompanyNews> resultList = null;
 
 		if (CollectionUtils.isEmpty(companyNewsList)) {
@@ -98,23 +93,20 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-     if(log.isInfoEnabled()){
-		log.info(" insert lists  success : " + (resultList == null ? "null" : resultList.size()));
-      }
+		if (log.isInfoEnabled()) {
+			log.info(" insert lists  success : "
+					+ (resultList == null ? "null" : resultList.size()));
+		}
 		return resultList;
-		
-		
-			
-		}	
-		  
-    	   
-		@Override
-		public boolean delete(Long id)throws ServiceException, ServiceDaoException{
-		
-	
-		             if(log.isInfoEnabled()){
-	    log.info(" delete data : " + id);
-    }
+
+	}
+
+	@Override
+	public boolean delete(Long id) throws ServiceException, ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" delete data : " + id);
+		}
 		boolean result = false;
 
 		if (id == null) {
@@ -129,20 +121,19 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-   if(log.isInfoEnabled()){
-		log.info(" delete data success : " + id);
-    }
+		if (log.isInfoEnabled()) {
+			log.info(" delete data success : " + id);
+		}
 		return result;
-		
-		}	
-		  
-    	   
-		@Override
-		public boolean update(CompanyNews companyNews)throws ServiceException, ServiceDaoException{
-		
-	
-		          
-	log.info(" update data : " + (companyNews == null ? "null" : companyNews.getId()));
+
+	}
+
+	@Override
+	public boolean update(CompanyNews companyNews) throws ServiceException,
+			ServiceDaoException {
+
+		log.info(" update data : "
+				+ (companyNews == null ? "null" : companyNews.getId()));
 
 		boolean result = false;
 
@@ -160,18 +151,18 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-       if(log.isInfoEnabled()){
-		log.info(" update data success : " + companyNews);
-       }
-		return result;	
-		}	
-		  
-    	   
-		@Override
-		public boolean updateList(List<CompanyNews> companyNewsList)throws ServiceException, ServiceDaoException{
-		
-	
-		          log.info(" update lists : " + (companyNewsList == null ? "null" : companyNewsList.size()));
+		if (log.isInfoEnabled()) {
+			log.info(" update data success : " + companyNews);
+		}
+		return result;
+	}
+
+	@Override
+	public boolean updateList(List<CompanyNews> companyNewsList)
+			throws ServiceException, ServiceDaoException {
+
+		log.info(" update lists : "
+				+ (companyNewsList == null ? "null" : companyNewsList.size()));
 
 		boolean result = false;
 
@@ -192,20 +183,19 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-         if(log.isInfoEnabled()){
-		log.info(" update lists success : " + companyNewsList.size());
-         }
-		return result;	
-		}	
-		  
-    	   
-		@Override
-		public CompanyNews getObjectById(Long id)throws ServiceException, ServiceDaoException{
-		
-	
-		                 if(log.isInfoEnabled()){
-        log.info(" get data : " + id);
-       }
+		if (log.isInfoEnabled()) {
+			log.info(" update lists success : " + companyNewsList.size());
+		}
+		return result;
+	}
+
+	@Override
+	public CompanyNews getObjectById(Long id) throws ServiceException,
+			ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" get data : " + id);
+		}
 		CompanyNews companyNews = null;
 
 		if (id == null) {
@@ -220,20 +210,19 @@ return result;
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-       if(log.isInfoEnabled()){
-		log.info(" get data success : " + id);
-        }
-		return companyNews;		
-		}	
-		  
-    	   
-		@Override
-		public List<CompanyNews> getObjectsByIds(List<Long> ids)throws ServiceException, ServiceDaoException{
-		
-	
-		          	  if(log.isInfoEnabled()){
-	    log.info(" get lists : " + (ids == null ? "null" : ids));
-      }
+		if (log.isInfoEnabled()) {
+			log.info(" get data success : " + id);
+		}
+		return companyNews;
+	}
+
+	@Override
+	public List<CompanyNews> getObjectsByIds(List<Long> ids)
+			throws ServiceException, ServiceDaoException {
+
+		if (log.isInfoEnabled()) {
+			log.info(" get lists : " + (ids == null ? "null" : ids));
+		}
 		List<CompanyNews> companyNews = null;
 
 		if (CollectionUtils.isEmpty(ids)) {
@@ -241,25 +230,19 @@ return result;
 		}
 
 		try {
-			companyNews = (List<CompanyNews>) dao.getList(CompanyNews.class, ids);
+			companyNews = (List<CompanyNews>) dao.getList(CompanyNews.class,
+					ids);
 		} catch (DaoException e) {
 			log.error(" get wrong : " + ids);
 			log.error(e);
 			e.printStackTrace();
 			throw new ServiceDaoException(e);
 		}
-     if(log.isInfoEnabled()){
-		log.info(" get data success : " + (companyNews == null ? "null" : companyNews.size()));
-     }
-		return companyNews;	
-		}	
-		  
-    	
-		
-	
-	
-		
-	
+		if (log.isInfoEnabled()) {
+			log.info(" get data success : "
+					+ (companyNews == null ? "null" : companyNews.size()));
+		}
+		return companyNews;
+	}
 
 }
-

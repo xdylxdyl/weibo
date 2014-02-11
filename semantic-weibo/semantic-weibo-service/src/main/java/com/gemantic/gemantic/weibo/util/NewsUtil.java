@@ -2,17 +2,21 @@ package com.gemantic.gemantic.weibo.util;
 
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.gemantic.brand.company.model.MicroBlogDoc;
 import com.gemantic.brand.company.model.NewsDoc;
 import com.gemantic.brand.company.model.RelatedCompany;
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
+import com.gemantic.common.util.MyTimeUtil;
 import com.gemantic.gemantic.weibo.model.CompanyEvent;
 import com.gemantic.gemantic.weibo.model.CompanyExtendevent;
 import com.gemantic.gemantic.weibo.model.CompanyExtendnews;
@@ -173,6 +177,37 @@ public class NewsUtil {
 			return new ArrayList();
 		}
 		return result.getDocCategory().getCharacters();
+	}
+
+	public static void fixParserError(News news,String pageContent) {
+		
+		String link = news.getLink();
+		if(link.contains("news.10jqka.com.cn/comment")){
+			log.info("fix parse "+link);		
+
+			Document doc =Jsoup.parse(pageContent);
+			String p = doc.select(".m_cont > div:eq(1)").text();
+			log.info("get publisht is "+p);
+			p=p.replace("文章时间：", "").trim();
+			log.info("p "+p);
+			Long publishAt;
+			try {
+				publishAt = MyTimeUtil.convertString2Long(p, "yyyy-MM-dd HH:mm:ss");
+				news.setPublish_at(publishAt);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error(e.getMessage());
+				log.error(link+" parse publish at error");
+			}
+			
+		}else{
+			
+		};
+	
+		
+
+		
 	}
 
 }

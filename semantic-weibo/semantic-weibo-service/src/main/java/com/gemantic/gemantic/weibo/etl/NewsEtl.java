@@ -16,6 +16,7 @@ import com.gemantic.brand.company.service.BrandCompanyService;
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
 import com.gemantic.common.util.FileUtil;
+import com.gemantic.common.util.MyTimeUtil;
 import com.gemantic.gemantic.weibo.model.CompanyEvent;
 import com.gemantic.gemantic.weibo.model.CompanyExtendevent;
 import com.gemantic.gemantic.weibo.model.CompanyExtendnews;
@@ -117,6 +118,10 @@ public class NewsEtl {
 						news.setSource(article.getSource());
 						news.setTitle(article.getHtmlTitle());						
 						news.setContent(article.getContent());
+						log.info(news);
+					    NewsUtil.fixParserError(news,pageContent);
+						log.info(news.getLink()+" ================== "+(MyTimeUtil.convertLong2String(news.getPublish_at(), "yyyy-MM-dd HH:mm:ss")));
+				
 					}
 					// 原创
 					// 2.1 插入MongoDB
@@ -131,7 +136,7 @@ public class NewsEtl {
 					newsDoc.setGuid(news.getNid());
 					NewsDoc result = this.brandCompanyService
 							.getNewsCategory(newsDoc);
-
+					
 					if (result == null) {
 						log.info(news.getLink() + " news  not get any result "
 								+ news.getNid());

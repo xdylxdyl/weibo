@@ -153,6 +153,7 @@ public class Weibo implements Serializable {
 	public void setForwardID(String forwardID) {
 		this.forwardID = forwardID;
 	}
+	
 
 	@Column(name = "update_at")
 	public Long getUpdateAt() {

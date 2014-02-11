@@ -1,8 +1,12 @@
 package com.gemantic.gemantic.weibo.service.impl;
 
+import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.rmi.Naming;
+import java.text.ParseException;
 import java.util.List;
+
+import javax.script.ScriptException;
 
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.logging.Log;
@@ -17,6 +21,7 @@ import com.gemantic.brand.company.model.MicroBlogDoc;
 import com.gemantic.brand.company.service.BrandCompanyService;
 import com.gemantic.common.exception.ServiceDaoException;
 import com.gemantic.common.exception.ServiceException;
+import com.gemantic.common.util.MyTimeUtil;
 import com.gemantic.gemantic.weibo.etl.NewsEtl;
 import com.gemantic.gemantic.weibo.etl.WeiboEtl;
 import com.gemantic.gemantic.weibo.model.CompanyEvent;
@@ -129,20 +134,51 @@ public class NewsETLTest {
 
 	}
 
-	@Test
-	public void testHtmlParse() throws URIException, URISyntaxException {
+	public interface I {
+		public String parse();
+	}
 
-		String link = "http://news.hexun.com/2013-09-09/157857509.html";
+	@Test
+	public void testHtmlParse() throws URIException, URISyntaxException,
+			FileNotFoundException, ScriptException, ParseException {
+
+		String link = "http://news.10jqka.com.cn/comment/547904444.shtml";
+		link = "http://stock.sohu.com/20131128/n390910760.shtml";
 		log.info(link);
 		String pageContent = HttpClientUtil.get(link);
+
+		/*
+		 * 
+		 * Document doc =Jsoup.parse(pageContent); String p =
+		 * doc.select(".m_cont > div:eq(1)").text();
+		 * log.info("get publisht is "+p); p=p.replace("文章时间：", "").trim();
+		 * log.info("p "+p); Long publishAt=MyTimeUtil.convertString2Long(p,
+		 * "yyyy-MM-dd HH:mm:ss");
+		 */
+
+		/*
+		 * PythonInterpreter interpreter = new PythonInterpreter();
+		 * interpreter.set("link", link); interpreter.set("pageContent",
+		 * pageContent); interpreter.execfile("src/main/resources/parser.py");
+		 * 
+		 * 
+		 * PyObject tmpFunction = interpreter.get("parse"); JythonObjectFactory
+		 * factory = JythonObjectFactory.getInstance();
+		 * 
+		 * factory.createObject(CostCalculatorType.class, "CostCalculator");
+		 */
+
 		HtmlContent tc = new HtmlContent();
 		tc.setContent(pageContent);
 		tc.setUrl(link);
 		tc.setAnchor(link);
 		tc.setFetchTime(System.currentTimeMillis());
 		Article article = newsEtl.getNewsParser().parseContent(tc);
-
-		log.info(article.getContent());
+		log.info("time long "
+				+ article.getTimeLong()
+				+ " format "
+				+ MyTimeUtil.convertLong2String(article.getTimeLong(),
+						"yyyy-MM-dd HH:mm:ss"));
 
 	}
 }
